@@ -15,7 +15,12 @@ import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Refle
 // Import Diosaur and everything else
 ```
 
+## Example
 ```typescript
+// Import metadata
+import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
+
+// Import diosaur
 import { Service, Parameter, Inject } from '';
 
 @Service()
