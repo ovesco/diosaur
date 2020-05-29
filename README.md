@@ -21,7 +21,7 @@ import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Refle
 import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
 
 // Import diosaur
-import { Service, Parameter, Inject } from '';
+import { Service, Parameter, Inject } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
 @Service()
 class Doggo {
@@ -44,7 +44,7 @@ class JonSnow {
 }
 
 // ...
-import * as Diosaur from '';
+import * as Diosaur from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
 Diosaur.setParameter('doggoName', 'Ghost');
 Diosaur.getContainer().then((container) => {
@@ -202,7 +202,7 @@ of a dependency graph which will be progressively resolved
 
 A standard application using Diosaur will have an entry point which might look like this.
 ```typescript
-import * as Diosaur from '';
+import * as Diosaur from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 // Other imports ...
 
 Diosaur.setParameter('param1', 'value1');
@@ -232,7 +232,7 @@ class MyComplexService {
 }
 
 // Before building the container
-import { register } from '';
+import { register } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
 register(MyComplexService) // The service class
     .as(MyComplexService, 'a tag') // The identifier and optionnal tag
@@ -249,7 +249,7 @@ as using anonymous factories.
 const myObj: ServiceClass = console;
 
 // Before building the container
-import { register, getContainer } from '';
+import { register, getContainer } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
 register('my-great-console') // The service class identifier
     .as('my-console', null) // This time a string identifier with no tag
@@ -336,7 +336,7 @@ decorator is attached to.
 
 ### Diosaur class API
 ```typescript
-import * as Diosaur from '';
+import * as Diosaur from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
 // Register some parameters
 Diosaur.setParameter(parameterKey, any);
