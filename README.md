@@ -1,8 +1,19 @@
-# Denovis
+# DIosaur
+## Dependency Injection for Deno
 
-Denovis is a small dependency injection solution written in Typescript which aims at making you write the minimum
+Diosaur is a small dependency injection solution written in Typescript for Deno which aims at making you write the minimum
 of code, avoiding obvious bindings and other repetitive stuff. It internally depends on `reflect-metadata` to guess
 the maximum indications out of your code, but still allows you for finer definition of your services.
+
+## Reflect Metadata
+As Diosaur relies on `reflect-metadata` and this library was not officially ported to Deno yet, you'll need
+to import it manually in your project which can be done like this:
+```typescript
+// On top of your project root file
+import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
+
+// Import Diosaur and everything else
+```
 
 ```typescript
 import { Service, Parameter, Inject } from '';
@@ -28,10 +39,10 @@ class JonSnow {
 }
 
 // ...
-import * as Denovis from '';
+import * as Diosaur from '';
 
-Denovis.setParameter('doggoName', 'Ghost');
-Denovis.getContainer().then((container) => {
+Diosaur.setParameter('doggoName', 'Ghost');
+Diosaur.getContainer().then((container) => {
     const jon = container.get(JonSnow);
     console.log(jon.yell());
 });
@@ -40,7 +51,7 @@ Denovis.getContainer().then((container) => {
 ## How does it work
 Generally speaking, a dependency injection library handles the lifecycle of your
 services, which means that you don't have to create or remove them, it's handled
-by the container. In Denovis, services are Typescript `class` decorated with the
+by the container. In Diosaur, services are Typescript `class` decorated with the
 `@Service` decorator as illustrated in the upper example.
 
 ### Injecting services
@@ -72,7 +83,7 @@ it might not be ready yet**
 - As constructor parameter, where it is guaranteed to be available within the constructor
 
 ### Injecting parameters
-Denovis allows you to register and inject parameters within your services. Just like Service
+Diosaur allows you to register and inject parameters within your services. Just like Service
 injection, parameter injection works using the `@Parameter` decorator.
 ```typescript
 @Service()
@@ -87,7 +98,7 @@ class MyService {
 }
 
 // ...
-Denovis.setParameter('paramKey', 'A great value!');
+Diosaur.setParameter('paramKey', 'A great value!');
 ```
 
 ### Abstracting your service concrete type
@@ -111,7 +122,7 @@ class MemcachedCache implements CacheInterface { /* ... */ }
 We could imagine an application where you'd have multiple implementations of that
 interface, one with Redis, another with Memcached and so on, but it doesn't matter
 to you, all you need to know is that it does implement `CacheInterface`. That's why
-Denovis makes a difference between:
+Diosaur makes a difference between:
 - Your service class
 - Your service **identifier** (which by default is your service class), which you'll use
 to resolve your service
@@ -144,7 +155,7 @@ class MyService {
 }
 
 // ...
-Denovis.setParameter('cacheImplementation', 'redis');
+Diosaur.setParameter('cacheImplementation', 'redis');
 ```
 
 ### Injecting all services of a given identifier
@@ -177,22 +188,22 @@ of your variable or attribute is the identifier. That's because we can't infer t
 type of an array in Typescript.
 
 ## Building the container
-Denovis follows a strict flow to manage your services.
+Diosaur follows a strict flow to manage your services.
 1. All metadata about your services, injecting and more is gathered into a singleton object called
 the `GlobalRegistrer`.
-2. Once this is done, you can ask Denovis to build the container. This will trigger the creation
+2. Once this is done, you can ask Diosaur to build the container. This will trigger the creation
 of a dependency graph which will be progressively resolved
 3. After that the container is exposed and it is impossible to register new services or parameters.
 
-A standard application using Denovis will have an entry point which might look like this.
+A standard application using Diosaur will have an entry point which might look like this.
 ```typescript
-import * as Denovis from '';
+import * as Diosaur from '';
 // Other imports ...
 
-Denovis.setParameter('param1', 'value1');
+Diosaur.setParameter('param1', 'value1');
 // Other parameters
 
-Denovis.getContainer().then((container) => {
+Diosaur.getContainer().then((container) => {
     // container is now available, if express you'd create your server here for example
 });
 ```
@@ -273,12 +284,12 @@ in the `IFactory::resolve` and when doing an anonymous factory. That's because y
 might want to inject some dependencies in your service constructor from within the
 factory.
 
-When Denovis will be ready to call your factory's `resolve` method, it will provide
+When Diosaur will be ready to call your factory's `resolve` method, it will provide
 all dependencies it found for it, in the correct order. You can then simply do a 
 `new MyService(...data)` to inject all dependencies.
 
 ## API
-### Denovis types
+### Diosaur types
 ```typescript
 type Constructor = new (...args: any[]) => {};
 
@@ -318,20 +329,20 @@ to use your service class here
 By default, the *serviceIdentifier* is infered from the attribute/parameter type which the
 decorator is attached to.
 
-### Denovis class API
+### Diosaur class API
 ```typescript
-import * as Denovis from '';
+import * as Diosaur from '';
 
 // Register some parameters
-Denovis.setParameter(parameterKey, any);
+Diosaur.setParameter(parameterKey, any);
 
 // Register dynamic services
-Denovis.register(serviceUNIQUEIdentifier: ServiceClassIdentifier)
+Diosaur.register(serviceUNIQUEIdentifier: ServiceClassIdentifier)
     .as(identifier: ServiceIdentifier, tag?: string | null)
     .with(((...data: any[]) => Promise<Object> | Object) | Object);
 
 // Build the container and make it available
-Denovis.getContainer().then((container) => {
+Diosaur.getContainer().then((container) => {
     // Container built and available
 
     // Retrieves a service
