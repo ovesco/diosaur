@@ -17,9 +17,6 @@ import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Refle
 
 ## Example
 ```typescript
-// Import metadata
-import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
-
 // Import diosaur
 import { Service, Parameter, Inject } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
@@ -43,7 +40,9 @@ class JonSnow {
     }
 }
 
-// ...
+// In your project root
+// Import metadata
+import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
 import * as Diosaur from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
 Diosaur.setParameter('doggoName', 'Ghost');
@@ -169,26 +168,26 @@ If you need to inject all services of a given identifier, you can use the
 ```typescript
 interface CacheInterface { /* ... */ }
 
-@Service({ identifier: 'cache', tag: 'redis' })
+@Service({ tag: 'redis' })
 class RedisCache implements CacheInterface { /* ... */ }
 
-@Service({ identifier: 'cache', tag: 'memcached' })
+@Service({ tag: 'memcached' })
 class MemcachedCache implements CacheInterface { /* ... */ }
 
 @Service()
 class MyService {
 
     // Injecting as attribute
-    @InjectAll('cache')
+    @InjectAll(CacheInterface)
     private caches: CacheInterface[];
 
     // Or injecting as constructor parameter
-    constructor(@InjectAll("cache") private caches: CacheInterface[]) {}
+    constructor(@InjectAll(CacheInterface) private caches: CacheInterface[]) {}
 }
 ```
 
 `caches` will contain an instance of both RedisCache and MemcachedCache.
-Please note that you must provide the service identifier to InjectAll, even if the type
+**Please note** that you must provide the service identifier to InjectAll, even if the type
 of your variable or attribute is the identifier. That's because we can't infer the
 type of an array in Typescript.
 
