@@ -1,95 +1,58 @@
-import { ServiceClassIdentifier, ServiceIdentifier, Constructor } from "./Types";
 import Registrer from './Metadata/Registrer';
 import { IncorrectFactoryError, NotInConstructorError } from "./Errors";
-
-
-/** Service */
-export interface ServiceConfig {
-    identifier: ServiceIdentifier;
-    tag: string | null;
-};
-
-export const defaultConfig = (identifier: ServiceIdentifier): ServiceConfig => ({
+;
+export const defaultConfig = (identifier) => ({
     identifier,
     tag: null,
 });
-
-export const Service = (config: Partial<ServiceConfig> = {}) => {
-    return <T extends Constructor>(target: T) => {
-        Registrer.registerService(target, {
-            ...defaultConfig(target),
-            ...config
-        });
-    }
+export const Service = (config = {}) => {
+    return (target) => {
+        Registrer.registerService(target, Object.assign({}, defaultConfig(target), config));
+    };
 };
-
-
 /** Factory */
-export const Factory = (createdService: ServiceClassIdentifier, config: Partial<ServiceConfig> = {}) => {
-
-    return <T extends Constructor>(factoryConstructor: T) => {
-
+export const Factory = (createdService, config = {}) => {
+    return (factoryConstructor) => {
         const factory = new factoryConstructor();
         if (!('resolve' in factory)) {
             throw new IncorrectFactoryError(factoryConstructor);
         }
-
-        Registrer.registerFactory(factory, createdService, {
-            ...defaultConfig(createdService),
-            ...config,
-        });
-    }
+        Registrer.registerFactory(factory, createdService, Object.assign({}, defaultConfig(createdService), config));
+    };
 };
-
-
-/** Inject */
-export interface InjectConfig {
-    tag: string | null;
-    identifier: ServiceIdentifier;
-}
-
-export const defaultInjectConfig = (identifier: ServiceIdentifier) => ({
+export const defaultInjectConfig = (identifier) => ({
     identifier,
     tag: null,
 });
-
-export const Inject = (config: Partial<InjectConfig> = {}) => {
-
-    return (target: any, key: string | symbol, index?: number) => {
-
+export const Inject = (config = {}) => {
+    return (target, key, index) => {
         if (typeof index === 'number') {
             if (key !== undefined) {
                 throw new NotInConstructorError();
             }
-
             // @ts-ignore
             const constructorParamTypes = Reflect.getMetadata('design:paramtypes', target, key);
-            const finalConfig = { ...defaultInjectConfig(constructorParamTypes[index]), ...config };
+            const finalConfig = Object.assign({}, defaultInjectConfig(constructorParamTypes[index]), config);
             Registrer.registerConstructorInject(target, index, finalConfig);
-        } else {
-
+        }
+        else {
             // @ts-ignore
             const serviceIdentifier = Reflect.getMetadata('design:type', target, key);
-            const finalConfig = { ...defaultInjectConfig(serviceIdentifier), ...config };    
+            const finalConfig = Object.assign({}, defaultInjectConfig(serviceIdentifier), config);
             Registrer.registerAttributeInject(target.constructor, key, finalConfig);
             Reflect.defineProperty(target, key, {
-                get: () => Registrer.getContainer().get(finalConfig.identifier as any, finalConfig.tag)
+                get: () => Registrer.getContainer().get(finalConfig.identifier, finalConfig.tag)
             });
         }
     };
 };
-
-
 /** Inject All */
-export const InjectAll = (identifier: ServiceIdentifier) => {
-
-    return (target: any, key: string | symbol, index?: number) => {
-
+export const InjectAll = (identifier) => {
+    return (target, key, index) => {
         if (typeof index === 'number') {
             if (key !== undefined) {
                 throw new NotInConstructorError();
             }
-
             // @ts-ignore
             const constructorParamTypes = Reflect.getMetadata('design:paramtypes', target, key);
             const paramType = constructorParamTypes[index];
@@ -97,26 +60,25 @@ export const InjectAll = (identifier: ServiceIdentifier) => {
                 throw new Error(`@InjectAll decorator can only be used with an array parameter on service ${target.name}`);
             }
             Registrer.registerConstructorAllService(target, identifier, index);
-        } else {
+        }
+        else {
             Registrer.registerAttributeAllService(target.constructor, identifier, key);
             Reflect.defineProperty(target, key, {
-                get: () => Registrer.getContainer().getAll(identifier as any),
+                get: () => Registrer.getContainer().getAll(identifier),
             });
         }
     };
 };
-
-
 /** Parameter injection */
-export const Parameter = (paramKey: string | symbol | Constructor) => {
-    return (target: any, key: string | symbol, index?: number) => {
+export const Parameter = (paramKey) => {
+    return (target, key, index) => {
         if (typeof index === 'number') {
             if (key !== undefined) {
                 throw new NotInConstructorError();
             }
-
             Registrer.registerConstructorParameter(target, index, paramKey);
-        } else {
+        }
+        else {
             Registrer.registerAttributeParameter(target.constructor, key, paramKey);
             Reflect.defineProperty(target, key, {
                 get: () => Registrer.getContainer().getParameter(paramKey)

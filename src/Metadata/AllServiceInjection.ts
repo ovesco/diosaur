@@ -1,4 +1,4 @@
-import { ServiceClassIdentifier, ServiceIdentifier } from "../Types.ts";
+import { ServiceClassIdentifier, ServiceIdentifier } from "../Types";
 
 export abstract class BaseInjectAllService {
 

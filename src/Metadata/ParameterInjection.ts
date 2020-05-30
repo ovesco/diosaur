@@ -1,4 +1,4 @@
-import { ServiceClassIdentifier, Constructor } from "../Types.ts";
+import { ServiceClassIdentifier, Constructor } from "../Types";
 
 export abstract class BaseInjectedParameter {
     constructor(public readonly serviceClass: ServiceClassIdentifier,

@@ -1,5 +1,5 @@
-import { ServiceClassIdentifier } from "../Types.ts";
-import { InjectConfig } from "../Decorators.ts";
+import { ServiceClassIdentifier } from "../Types";
+import { InjectConfig } from "../Decorators";
 
 export abstract class BaseInjectedService {
 

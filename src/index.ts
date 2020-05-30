@@ -1,7 +1,7 @@
-import { IContainer } from "./Container.ts";
-import Registrer from "./Metadata/Registrer.ts";
-import { Constructor, ServiceClassIdentifier, ServiceIdentifier } from "./Types.ts";
-import { FunctionFactory } from "./Factory.ts";
+import { IContainer } from "./Container";
+import Registrer from "./Metadata/Registrer";
+import { Constructor, ServiceClassIdentifier, ServiceIdentifier } from "./Types";
+import { FunctionFactory } from "./Factory";
 
 import {
     Service,
@@ -9,7 +9,7 @@ import {
     InjectAll,
     Factory,
     Parameter,
-} from './Decorators.ts';
+} from './Decorators';
 
 export {
     Service,

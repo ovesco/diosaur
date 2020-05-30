@@ -1,13 +1,22 @@
 {
     "compilerOptions": {
-        "lib": ["DOM", "ES2015"],
+        "lib": ["dom", "ES2015"],
         "esModuleInterop": true,
+        "target": "ES6",
         "experimentalDecorators": true,
         "strictPropertyInitialization": false,
         "emitDecoratorMetadata": true,
-        "strict": true
+        "strict": true,
+        "outDir": "./dist",
+        "declaration": true,
+        "rootDir": "src",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
     },
     "exclude": [
-        "dist"
+        "dist",
+        "node_modules",
+        "./deno_dist",
+        "./mod.ts"
     ]
 }

@@ -1,22 +1,22 @@
-import DependencyGraph from "./DependencyGraph.ts";
-import RegisteredFactory from "../Metadata/RegisteredFactory.ts";
-import { BaseInjectedService, ConstructorInjectedService } from "../Metadata/ServiceInjection.ts";
-import { BaseInjectedParameter, ConstructorInjectedParameter } from "../Metadata/ParameterInjection.ts";
-import { BaseInjectAllService, ConstructorInjectAllService } from "../Metadata/AllServiceInjection.ts";
-import { ParameterBag, ServiceRegistry } from "../Types.ts";
-import { Container } from "../Container.ts";
-import GraphCycleDetection from "./GraphCycleDetection.ts";
-import { CircularDependencyError } from "../Errors.ts";
-import { Node } from './Graph.ts';
+import DependencyGraph from "./DependencyGraph";
+import RegisteredFactory from "../Metadata/RegisteredFactory";
+import { BaseInjectedService, ConstructorInjectedService } from "../Metadata/ServiceInjection";
+import { BaseInjectedParameter, ConstructorInjectedParameter } from "../Metadata/ParameterInjection";
+import { BaseInjectAllService, ConstructorInjectAllService } from "../Metadata/AllServiceInjection";
+import { ParameterBag, ServiceRegistry } from "../Types";
+import { Container } from "../Container";
+import GraphCycleDetection from "./GraphCycleDetection";
+import { CircularDependencyError } from "../Errors";
+import { Node } from './Graph';
 
 class ContainerBuilder {
 
     private dependencyGraph: DependencyGraph;
 
-    constructor(private factories: RegisteredFactory[],
-        private injections: BaseInjectedService[],
-        private registeredParameters: BaseInjectedParameter[],
-        private registeredAllInjections: BaseInjectAllService[],
+    constructor(factories: RegisteredFactory[],
+        injections: BaseInjectedService[],
+        registeredParameters: BaseInjectedParameter[],
+        registeredAllInjections: BaseInjectAllService[],
         private parameters: ParameterBag) {
 
             this.dependencyGraph = new DependencyGraph(factories, injections, registeredParameters, registeredAllInjections, parameters);
@@ -35,7 +35,7 @@ class ContainerBuilder {
             throw new CircularDependencyError();
         }
 
-        await this.dependencyGraph.detectGraphServiceLeaves().reduce((acc, node) => acc.then(() => new Promise((resolve) => {
+        await this.dependencyGraph.detectGraphServiceLeaves().reduce((acc, node) => acc.then(() => new Promise<void>((resolve) => {
             this.buildService(registry, node).then(() => resolve());
         })), Promise.resolve());
         return registry;
@@ -53,7 +53,7 @@ class ContainerBuilder {
 
         const dependencyParameters: Object[] = [];
         const linkedDependencies = (node.links || []).filter(l => node.id === l.toId);
-        await linkedDependencies.reduce((acc, dependencyLink) => acc.then(() => new Promise((resolve) => {
+        await linkedDependencies.reduce((acc, dependencyLink) => acc.then(() => new Promise<void>((resolve) => {
             const dependencyNode = this.dependencyGraph.getGraph().getNode(dependencyLink.fromId) as Node;
 
             if (dependencyLink.data instanceof BaseInjectedService) {
@@ -68,7 +68,7 @@ class ContainerBuilder {
                 // Inject all known dependencies
                 const linkedServices = dependencyNode.links.filter(depLink => depLink.toId === dependencyNode.id).map(it => it.fromId);
                 const servicesToInject: Object[] = [];
-                linkedServices.reduce((acc, linkedServiceKey) => acc.then(() => new Promise((resolveAll) => {
+                linkedServices.reduce((acc, linkedServiceKey) => acc.then(() => new Promise<void>((resolveAll) => {
                     this.buildService(registry, this.dependencyGraph.getGraph().getNode(linkedServiceKey) as Node).then((linkedService) => {
                         servicesToInject.push(linkedService);
                         resolveAll();

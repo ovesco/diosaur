@@ -1,6 +1,6 @@
-import { Constructor, ServiceIdentifier, ServiceRegistry, ParameterBag } from "./Types.ts";
-import { UnregisteredServiceError } from "./Errors.ts";
-import { resolveTag } from "./Utils.ts";
+import { Constructor, ServiceIdentifier, ServiceRegistry, ParameterBag } from "./Types";
+import { UnregisteredServiceError } from "./Errors";
+import { resolveTag } from "./Utils";
 
 export interface IContainer {
 

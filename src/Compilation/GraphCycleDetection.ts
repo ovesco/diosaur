@@ -1,4 +1,4 @@
-import { Graph, Node } from "./Graph.ts";
+import { Graph, Node } from "./Graph";
 
 class GraphCycleDetection {
 

@@ -1,6 +1,6 @@
-import IFactory from "../IFactory.ts";
-import { ServiceClassIdentifier } from "../Types.ts";
-import { ServiceConfig } from "../Decorators.ts";
+import IFactory from "../IFactory";
+import { ServiceClassIdentifier } from "../Types";
+import { ServiceConfig } from "../Decorators";
 
 export default class RegisteredFactory {
 

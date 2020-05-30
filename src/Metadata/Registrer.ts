@@ -1,14 +1,14 @@
-import { ParameterBag, Constructor, ServiceClassIdentifier, ServiceIdentifier } from "../Types.ts";
-import { ServiceConfig, InjectConfig } from "../Decorators.ts";
-import { ConstructorInjectAllService, AttributeInjectAllService, BaseInjectAllService } from "./AllServiceInjection.ts";
-import { ConstructorInjectedParameter, AttributeInjectedParameter, BaseInjectedParameter } from "./ParameterInjection.ts";
-import { ConstructorInjectedService, AttributeInjectedService, BaseInjectedService } from "./ServiceInjection.ts";
-import RegisteredFactory from "./RegisteredFactory.ts";
-import { BasicFactory } from "../Factory.ts";
-import IFactory from "../IFactory.ts";
-import { IContainer } from "../Container.ts";
-import { NotBuiltContainerError } from "../Errors.ts";
-import ContainerBuilder from "../Compilation/ContainerBuilder.ts";
+import { ParameterBag, Constructor, ServiceClassIdentifier, ServiceIdentifier } from "../Types";
+import { ServiceConfig, InjectConfig } from "../Decorators";
+import { ConstructorInjectAllService, AttributeInjectAllService, BaseInjectAllService } from "./AllServiceInjection";
+import { ConstructorInjectedParameter, AttributeInjectedParameter, BaseInjectedParameter } from "./ParameterInjection";
+import { ConstructorInjectedService, AttributeInjectedService, BaseInjectedService } from "./ServiceInjection";
+import RegisteredFactory from "./RegisteredFactory";
+import { BasicFactory } from "../Factory";
+import IFactory from "../IFactory";
+import { IContainer } from "../Container";
+import { NotBuiltContainerError } from "../Errors";
+import ContainerBuilder from "../Compilation/ContainerBuilder";
 
 class Registrer {
 

@@ -1,5 +1,5 @@
-import IFactory from "./IFactory.ts";
-import { Constructor } from "./Types.ts";
+import IFactory from "./IFactory";
+import { Constructor } from "./Types";
 
 export class BasicFactory implements IFactory {
     
@@ -17,7 +17,7 @@ export class FunctionFactory implements IFactory {
     constructor(private serviceMaker: () => Object | Promise<Object>) {
     }
 
-    async resolve(data: any[]) {
+    async resolve() {
         return await this.serviceMaker();
     }
 }
