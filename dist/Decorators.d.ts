@@ -1,4 +1,4 @@
-import { ServiceIdentifier, Constructor } from "./Types";
+import { ServiceClassIdentifier, ServiceIdentifier, Constructor } from "./Types";
 /** Service */
 export interface ServiceConfig {
     identifier: ServiceIdentifier;
@@ -7,7 +7,7 @@ export interface ServiceConfig {
 export declare const defaultConfig: (identifier: ServiceIdentifier) => ServiceConfig;
 export declare const Service: (config?: Partial<ServiceConfig>) => <T extends Constructor>(target: T) => void;
 /** Factory */
-export declare const Factory: (createdService: ServiceIdentifier, config?: Partial<ServiceConfig>) => <T extends Constructor>(factoryConstructor: T) => void;
+export declare const Factory: (createdService: ServiceClassIdentifier, config?: Partial<ServiceConfig>) => <T extends Constructor>(factoryConstructor: T) => void;
 /** Inject */
 export interface InjectConfig {
     tag: string | null;
@@ -21,4 +21,4 @@ export declare const Inject: (config?: Partial<InjectConfig>) => (target: any, k
 /** Inject All */
 export declare const InjectAll: (identifier: ServiceIdentifier) => (target: any, key: string | symbol, index?: number | undefined) => void;
 /** Parameter injection */
-export declare const Parameter: (paramKey: ServiceIdentifier) => (target: any, key: string | symbol, index?: number | undefined) => void;
+export declare const Parameter: (paramKey: string | symbol | Constructor) => (target: any, key: string | symbol, index?: number | undefined) => void;

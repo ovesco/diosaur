@@ -1,2 +1,3 @@
-export declare const resolveTag: (tag: string | null, parameterBag: Map<import("./Types").ServiceIdentifier, any>) => any;
+import { ParameterBag } from "./Types";
+export declare const resolveTag: (tag: string | null, parameterBag: ParameterBag) => any;
 export declare const uniqid: () => string;
