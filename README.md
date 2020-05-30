@@ -1,4 +1,4 @@
-# DIosaur
+# Diosaur
 #### A small dependency injection library with no dependencies except `reflect-metadata`
 
 # THIS IS A WORK IN PROGRESS
