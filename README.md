@@ -1,9 +1,9 @@
 # DIosaur
-## Dependency Injection for Deno
+#### A small dependency injection library with no dependencies except `reflect-metadata`
 
 # THIS IS A WORK IN PROGRESS
 
-Diosaur is a small dependency injection solution written in Typescript for Deno which aims at making you write the minimum
+Diosaur is a small dependency injection solution written in Typescript for Deno and node (not yet actually) which aims at making you write the minimum
 of code, avoiding obvious bindings and other repetitive stuff. It internally depends on `reflect-metadata` to guess
 the maximum indications out of your code, but still allows you for finer definition of your services.
 
