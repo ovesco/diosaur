@@ -4,6 +4,10 @@
     "denoify": "^0.2.18",
     "reflect-metadata": "^0.1.13"
   },
+  "author": "guillaume hochet",
+  "license": "MIT",
+  "keywords": ["inversion", "of", "control", "dependency", "injection", "typescript"],
+  "description": "A small dependency injection library in typescript",
   "scripts": {
     "build": "tsc && npm run denoify",
     "denoify": "npx denoify"
