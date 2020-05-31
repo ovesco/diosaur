@@ -17,6 +17,7 @@
         "dist",
         "node_modules",
         "./deno_dist",
-        "./mod.ts"
+        "./mod.ts",
+        "./demo"
     ]
 }
