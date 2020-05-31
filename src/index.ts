@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { IContainer } from "./Container";
 import Registrer from "./Metadata/Registrer";
 import { Constructor, ServiceClassIdentifier, ServiceIdentifier } from "./Types";
