@@ -10,24 +10,14 @@ Diosaur is a small dependency injection solution written in Typescript for Deno 
 of code, avoiding obvious bindings and other repetitive stuff. It internally depends on `reflect-metadata` to guess
 the maximum indications out of your code, but still allows you for finer definition of your services.
 
-## Reflect Metadata
-As Diosaur relies on `reflect-metadata` and this library was not officially ported to Deno yet, you'll need
-to import it manually in your project.
-
 
 ## Example
 ```typescript
 /** Deno **/
-// Import reflect-metadata
-import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
-
 // Import diosaur
 import { Service, Parameter, Inject, setParameter, getContainer } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
 
 /** Node **/
-// Import reflect-metadata, first install it `npm install --save reflect-metadata`
-import 'reflect-metadata';
-
 // Import diosaur
 import { Service, Parameter, Inject } from 'diosaur';
 
@@ -58,11 +48,24 @@ getContainer().then((container) => {
 });
 ```
 
-## How does it work
 Generally speaking, a dependency injection library handles the lifecycle of your
 services, which means that you don't have to create or remove them, it's handled
 by the container. In Diosaur, services are Typescript `class` decorated with the
 `@Service` decorator as illustrated in the upper example.
+
+# Using it in Deno
+
+Currently use of decorator is not allowed by default in deno. 
+To run a module requiring diosaur you will need to provide a tsconfig.jsonconfig 
+file specifying `"experimentalDecorators": true`.
+
+For example to run the above example in deno:  
+```bash
+git clone https://github.com/ovesco/diosaur
+cd diosaur/demo
+deno run --config tsconfig.json deno_demo.ts
+```
+![image](https://user-images.githubusercontent.com/6702424/83362772-13bf1a80-a394-11ea-8bca-6312539641f8.png)
 
 ### Injecting services
 Another purpose of dependency injection is actually managing your dependencies for you.

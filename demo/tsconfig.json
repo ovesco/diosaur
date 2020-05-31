@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "lib": ["dom", "ES2015"],
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": false,
+        "emitDecoratorMetadata": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    }
+}

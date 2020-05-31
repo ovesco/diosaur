@@ -2,6 +2,7 @@ import { IContainer } from "./Container.ts";
 import Registrer from "./Metadata/Registrer.ts";
 import { Constructor, ServiceClassIdentifier, ServiceIdentifier } from "./Types.ts";
 import { FunctionFactory } from "./Factory.ts";
+import "https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js";
 
 import {
     Service,

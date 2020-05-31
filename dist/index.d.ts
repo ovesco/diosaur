@@ -1,5 +1,6 @@
 import { IContainer } from "./Container";
 import { Constructor, ServiceClassIdentifier, ServiceIdentifier } from "./Types";
+import "reflect-metadata";
 import { Service, Inject, InjectAll, Factory, Parameter } from './Decorators';
 export { Service, Inject, InjectAll, Factory, Parameter, IContainer, };
 export declare const getContainer: () => Promise<IContainer>;

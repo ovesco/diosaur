@@ -2,17 +2,24 @@
   "devDependencies": {
     "@types/node": "^14.0.6",
     "denoify": "^0.2.18",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.9.3"
   },
   "name": "diosaur",
   "version": "0.0.1",
   "author": "guillaume hochet",
   "license": "MIT",
-  "keywords": ["inversion", "of", "control", "dependency", "injection", "typescript"],
+  "keywords": [
+    "inversion",
+    "of",
+    "control",
+    "dependency",
+    "injection",
+    "typescript"
+  ],
   "description": "A small dependency injection library in typescript",
   "scripts": {
-    "build": "tsc && npm run denoify",
-    "denoify": "npx denoify"
+    "build": "tsc && denoify"
   },
   "main": "dist/index.js",
   "denoPorts": {

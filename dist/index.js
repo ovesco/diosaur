@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import Registrer from "./Metadata/Registrer";
 import { FunctionFactory } from "./Factory";
+import "reflect-metadata";
 import { Service, Inject, InjectAll, Factory, Parameter, } from './Decorators';
 export { Service, Inject, InjectAll, Factory, Parameter, };
 export const getContainer = () => __awaiter(void 0, void 0, void 0, function* () {
