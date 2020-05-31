@@ -5,10 +5,17 @@
     "reflect-metadata": "^0.1.13"
   },
   "name": "diosaur",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "guillaume hochet",
   "license": "MIT",
-  "keywords": ["inversion", "of", "control", "dependency", "injection", "typescript"],
+  "keywords": [
+    "inversion",
+    "of",
+    "control",
+    "dependency",
+    "injection",
+    "typescript"
+  ],
   "description": "A small dependency injection library in typescript",
   "scripts": {
     "build": "tsc && npm run denoify",
