@@ -11,8 +11,5 @@
   "main": "dist/index.js",
   "denoPorts": {
     "reflect-metadata": "https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js"
-  },
-  "dependencies": {
-    "rimraf": "^3.0.2"
   }
 }
