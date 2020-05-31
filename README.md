@@ -1,3 +1,7 @@
+<p align="center">
+    <img width="200" src="https://user-images.githubusercontent.com/8458666/83355360-616d6000-a35f-11ea-9078-732542670707.jpg">
+</p>
+
 # Diosaur
 #### A small dependency injection library with no dependencies except for `reflect-metadata` built for Deno using Denoify.
 This is a side project I'm using in other side projects, it works well but maybe don't use it in production yet.
