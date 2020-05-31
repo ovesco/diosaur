@@ -4,6 +4,8 @@
     "denoify": "^0.2.18",
     "reflect-metadata": "^0.1.13"
   },
+  "name": "diosaur",
+  "version": "0.0.1",
   "author": "guillaume hochet",
   "license": "MIT",
   "keywords": ["inversion", "of", "control", "dependency", "injection", "typescript"],
