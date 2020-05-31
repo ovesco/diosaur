@@ -1,26 +1,30 @@
 # Diosaur
-#### A small dependency injection library with no dependencies except `reflect-metadata`
+#### A small dependency injection library with no dependencies except for `reflect-metadata`
 
-# THIS IS A WORK IN PROGRESS
-
-Diosaur is a small dependency injection solution written in Typescript for Deno and node (not yet actually) which aims at making you write the minimum
+Diosaur is a small dependency injection solution written in Typescript for Deno and node which aims at making you write the minimum
 of code, avoiding obvious bindings and other repetitive stuff. It internally depends on `reflect-metadata` to guess
 the maximum indications out of your code, but still allows you for finer definition of your services.
 
 ## Reflect Metadata
 As Diosaur relies on `reflect-metadata` and this library was not officially ported to Deno yet, you'll need
-to import it manually in your project which can be done like this:
-```typescript
-// On top of your project root file
-import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
+to import it manually in your project.
 
-// Import Diosaur and everything else
-```
 
 ## Example
 ```typescript
+/** Deno **/
+// Import reflect-metadata
+import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
+
 // Import diosaur
-import { Service, Parameter, Inject } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
+import { Service, Parameter, Inject, setParameter, getContainer } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
+
+/** Node **/
+// Import reflect-metadata, first install it `npm install --save reflect-metadata`
+import 'reflect-metadata';
+
+// Import diosaur
+import { Service, Parameter, Inject } from 'diosaur';
 
 @Service()
 class Doggo {
@@ -42,13 +46,8 @@ class JonSnow {
     }
 }
 
-// In your project root
-// Import metadata
-import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
-import * as Diosaur from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
-
-Diosaur.setParameter('doggoName', 'Ghost');
-Diosaur.getContainer().then((container) => {
+setParameter('doggoName', 'Ghost');
+getContainer().then((container) => {
     const jon = container.get(JonSnow);
     console.log(jon.yell());
 });
@@ -203,7 +202,7 @@ of a dependency graph which will be progressively resolved
 
 A standard application using Diosaur will have an entry point which might look like this.
 ```typescript
-import * as Diosaur from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
+import * as Diosaur from '...';
 // Other imports ...
 
 Diosaur.setParameter('param1', 'value1');
@@ -233,9 +232,7 @@ class MyComplexService {
 }
 
 // Before building the container
-import { register } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
-
-register(MyComplexService) // The service class
+Diosaur.register(MyComplexService) // The service class
     .as(MyComplexService, 'a tag') // The identifier and optionnal tag
     .with(async (...data: any[]) => { // Support for async functions and promises!
         const res = await someLongIOWork();
@@ -249,14 +246,11 @@ as using anonymous factories.
 ```typescript
 const myObj: ServiceClass = console;
 
-// Before building the container
-import { register, getContainer } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
-
-register('my-great-console') // The service class identifier
+Diosaur.register('my-great-console') // The service class identifier
     .as('my-console', null) // This time a string identifier with no tag
     .with(myObj);
 
-getContainer().then((container) => {
+Diosaur.getContainer().then((container) => {
     container.get('my-great-console').log('youhouu');
 });
 ```
@@ -337,8 +331,6 @@ decorator is attached to.
 
 ### Diosaur class API
 ```typescript
-import * as Diosaur from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
-
 // Register some parameters
 Diosaur.setParameter(parameterKey, any);
 
