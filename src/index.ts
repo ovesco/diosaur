@@ -2,6 +2,7 @@ import { IContainer } from "./Container";
 import Registrer from "./Metadata/Registrer";
 import { Constructor, ServiceClassIdentifier, ServiceIdentifier } from "./Types";
 import { FunctionFactory } from "./Factory";
+import "reflect-metadata";
 
 import {
     Service,
