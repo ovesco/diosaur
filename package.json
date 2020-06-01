@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@types/node": "^14.0.6",
-    "denoify": "^0.2.18",
+    "denoify": "^0.2.21",
     "reflect-metadata": "^0.1.13",
     "typescript": "^3.9.3"
   },
