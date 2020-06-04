@@ -1,4 +1,4 @@
-import { ServiceClassIdentifier, ServiceIdentifier, Constructor } from "./Types";
+import { ServiceIdentifier, Constructor } from "./Types";
 import Registrer from './Metadata/Registrer';
 import { IncorrectFactoryError, NotInConstructorError } from "./Errors";
 
@@ -7,11 +7,21 @@ import { IncorrectFactoryError, NotInConstructorError } from "./Errors";
 export interface ServiceConfig {
     identifier: ServiceIdentifier;
     tag: string | null;
+    scoping: 'singleton' | 'renewable' | 'custom';
+    customScopes: string[];
+};
+
+export const SCOPES = {
+    singleton: 'singleton' as 'singleton',
+    newable: 'renewable' as 'renewable',
+    custom: 'custom' as 'custom',
 };
 
 export const defaultConfig = (identifier: ServiceIdentifier): ServiceConfig => ({
     identifier,
     tag: null,
+    scoping: SCOPES.singleton,
+    customScopes: []
 });
 
 export const Service = (config: Partial<ServiceConfig> = {}) => {
@@ -25,13 +35,17 @@ export const Service = (config: Partial<ServiceConfig> = {}) => {
 
 
 /** Factory */
-export const Factory = (createdService: ServiceClassIdentifier, config: Partial<ServiceConfig> = {}) => {
+export const Factory = (createdService: ServiceIdentifier, config: Partial<ServiceConfig> = {}) => {
 
     return <T extends Constructor>(factoryConstructor: T) => {
-
         const factory = new factoryConstructor();
         if (!('resolve' in factory)) {
             throw new IncorrectFactoryError(factoryConstructor);
+        }
+
+        const isPromise = Reflect.getMetadata('design:returntype', factory, 'resolve') === Promise;
+        if (config.scoping && config.scoping !== SCOPES.singleton && isPromise) {
+            throw new Error('Async factories MUST be scoped as singletons');
         }
 
         Registrer.registerFactory(factory, createdService, {
@@ -46,11 +60,13 @@ export const Factory = (createdService: ServiceClassIdentifier, config: Partial<
 export interface InjectConfig {
     tag: string | null;
     identifier: ServiceIdentifier;
+    refresh: boolean;
 }
 
 export const defaultInjectConfig = (identifier: ServiceIdentifier) => ({
     identifier,
     tag: null,
+    refresh: false,
 });
 
 export const Inject = (config: Partial<InjectConfig> = {}) => {
@@ -70,18 +86,15 @@ export const Inject = (config: Partial<InjectConfig> = {}) => {
 
             // @ts-ignore
             const serviceIdentifier = Reflect.getMetadata('design:type', target, key);
-            const finalConfig = { ...defaultInjectConfig(serviceIdentifier), ...config };    
+            const finalConfig: InjectConfig = { ...defaultInjectConfig(serviceIdentifier), ...config };
             Registrer.registerAttributeInject(target.constructor, key, finalConfig);
-            Reflect.defineProperty(target, key, {
-                get: () => Registrer.getContainer().get(finalConfig.identifier as any, finalConfig.tag)
-            });
         }
     };
 };
 
 
 /** Inject All */
-export const InjectAll = (identifier: ServiceIdentifier) => {
+export const InjectAll = (identifier: ServiceIdentifier, refresh: boolean = false) => {
 
     return (target: any, key: string | symbol, index?: number) => {
 
@@ -96,12 +109,9 @@ export const InjectAll = (identifier: ServiceIdentifier) => {
             if (paramType.name !== 'Array') {
                 throw new Error(`@InjectAll decorator can only be used with an array parameter on service ${target.name}`);
             }
-            Registrer.registerConstructorAllService(target, identifier, index);
+            Registrer.registerConstructorAllService(target, identifier, index, refresh);
         } else {
-            Registrer.registerAttributeAllService(target.constructor, identifier, key);
-            Reflect.defineProperty(target, key, {
-                get: () => Registrer.getContainer().getAll(identifier as any),
-            });
+            Registrer.registerAttributeAllService(target.constructor, identifier, key, refresh);
         }
     };
 };

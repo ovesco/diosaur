@@ -1,8 +1,12 @@
 {
   "devDependencies": {
+    "@types/jest": "^25.2.3",
     "@types/node": "^14.0.6",
+    "@types/reflect-metadata": "^0.1.0",
     "denoify": "^0.2.18",
-    "reflect-metadata": "^0.1.13"
+    "jest": "^26.0.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-jest": "^26.1.0"
   },
   "name": "diosaur",
   "version": "0.1.0",
@@ -19,7 +23,9 @@
   "description": "A small dependency injection library in typescript",
   "scripts": {
     "build": "tsc && npm run denoify",
-    "denoify": "npx denoify"
+    "denoify": "npx denoify",
+    "test": "jest",
+    "docs": "vuepress dev docs"
   },
   "main": "dist/index.js",
   "denoPorts": {

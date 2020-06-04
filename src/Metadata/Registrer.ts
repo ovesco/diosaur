@@ -1,14 +1,14 @@
 import { ParameterBag, Constructor, ServiceClassIdentifier, ServiceIdentifier } from "../Types";
 import { ServiceConfig, InjectConfig } from "../Decorators";
-import { ConstructorInjectAllService, AttributeInjectAllService, BaseInjectAllService } from "./AllServiceInjection";
-import { ConstructorInjectedParameter, AttributeInjectedParameter, BaseInjectedParameter } from "./ParameterInjection";
-import { ConstructorInjectedService, AttributeInjectedService, BaseInjectedService } from "./ServiceInjection";
+import { AttributeInjectAllService, BaseInjectAllService, ConstructorInjectAllService } from "./AllServiceInjection";
+import { AttributeInjectedParameter, BaseInjectedParameter, ConstructorInjectedParameter } from "./ParameterInjection";
+import { AttributeInjectedService, BaseInjectedService, ConstructorInjectedService } from "./ServiceInjection";
 import RegisteredFactory from "./RegisteredFactory";
 import { BasicFactory } from "../Factory";
 import IFactory from "../IFactory";
-import { IContainer } from "../Container";
+import { IContainer, Container } from "../Container";
 import { NotBuiltContainerError } from "../Errors";
-import ContainerBuilder from "../Compilation/ContainerBuilder";
+import ServiceResolver from "../Compilation/ServiceResolver";
 
 class Registrer {
 
@@ -31,14 +31,17 @@ class Registrer {
         return Registrer._container;
     }
 
-    static async build() {
-        const builder = new ContainerBuilder(
+    static async build(refresh: boolean = false) {
+        if (Registrer._container && !refresh) return Registrer._container;
+        
+        const resolver = new ServiceResolver(
             this.factories,
             this.injections,
             this.injectedParameters,
             this.allInjections,
             this.parameters);
-        Registrer._container = await builder.buildContainer();
+        await resolver.warmup();
+        Registrer._container = new Container(resolver);
         return Registrer._container;
     }
 
@@ -70,12 +73,12 @@ class Registrer {
         Registrer.injectedParameters.push(new ConstructorInjectedParameter(service, index, paramKey));
     }
 
-    static registerAttributeAllService(service: ServiceClassIdentifier, identifier: ServiceIdentifier, paramKey: string | symbol) {
-        Registrer.allInjections.push(new AttributeInjectAllService(service, identifier, paramKey));
+    static registerAttributeAllService(service: ServiceClassIdentifier, identifier: ServiceIdentifier, paramKey: string | symbol, refresh: boolean) {
+        Registrer.allInjections.push(new AttributeInjectAllService(service, identifier, paramKey, refresh));
     }
 
-    static registerConstructorAllService(service: ServiceClassIdentifier, identifier: ServiceIdentifier, index: number) {
-        Registrer.allInjections.push(new ConstructorInjectAllService(service, identifier, index));
+    static registerConstructorAllService(service: ServiceClassIdentifier, identifier: ServiceIdentifier, index: number, refresh: boolean) {
+        Registrer.allInjections.push(new ConstructorInjectAllService(service, identifier, index, refresh));
     }
 }
 

@@ -15,26 +15,20 @@ class DependencyGraph {
 
     private identifierServices: Map<ServiceIdentifier, ServiceClassIdentifier[]> = new Map();
 
-    private built: boolean = false;
-
     constructor(private factories: RegisteredFactory[],
         private injections: BaseInjectedService[],
         private injectedParameters: BaseInjectedParameter[],
         private allInjections: BaseInjectAllService[],
         private parameterBag: ParameterBag) {}
 
-    getGraph() {
-        if (!this.built) {
-            this.build();
-        }
-
-        return this.dependencyGraph;
+    getNodeByIdentifier(identifier: ServiceIdentifier, tag: string | null) {
+        return this.dependencyGraph.getNode(DependencyGraph.serviceKey(identifier, tag));
     }
 
     build() {    
         this.factories.forEach((registeredFactory) => {
             const { identifier } = registeredFactory.config;
-            const key = this.serviceKey(identifier, registeredFactory.config.tag);
+            const key = DependencyGraph.serviceKey(identifier, registeredFactory.config.tag);
             if (this.dependencyGraph.hasNode(key)) {
                 throw new Error(`Trying to register ${registeredFactory.serviceClass.toString()}, but another service exist for the same identifier and same tag`);
             }
@@ -51,13 +45,13 @@ class DependencyGraph {
         });
     
         this.parameterBag.forEach((value, key) => {
-            const paramKey = this.paramKey(key);
+            const paramKey = DependencyGraph.paramKey(key);
             this.dependencyGraph.addNode(paramKey, value);
         });
     
         this.injections.forEach((injectedService) => {
             const serviceKey = this.serviceClassToKey.get(injectedService.serviceClass) as string;
-            const injectedServiceKey = this.serviceKey(injectedService.config.identifier, resolveTag(injectedService.config.tag, this.parameterBag));
+            const injectedServiceKey = DependencyGraph.serviceKey(injectedService.config.identifier, resolveTag(injectedService.config.tag, this.parameterBag));
             if (!this.dependencyGraph.hasNode(serviceKey) || !this.dependencyGraph.hasNode(injectedServiceKey)) {
                 throw new MissingServiceDefinitionError(`Trying to inject service ${injectedServiceKey} into ${serviceKey} but one of them is not registered`);
             }
@@ -66,7 +60,7 @@ class DependencyGraph {
     
         this.allInjections.forEach((registeredAllInjection) => {
             const { identifier } = registeredAllInjection;
-            const allKey = this.allServiceKey(identifier);
+            const allKey = DependencyGraph.allServiceKey(identifier);
             const serviceKey = this.serviceClassToKey.get(registeredAllInjection.serviceClass) as string;
             if (!this.dependencyGraph.hasNode(serviceKey) || !this.identifierServices.has(identifier)) {
                 throw new MissingServiceDefinitionError(`Trying to inject ${allKey} services into ${serviceKey} but one of those definition doesn't exist`);
@@ -84,14 +78,14 @@ class DependencyGraph {
     
         this.injectedParameters.forEach((injectedParameter) => {
             const serviceKey = this.serviceClassToKey.get(injectedParameter.serviceClass) as string;
-            const injectedParameterKey = this.paramKey(injectedParameter.parameterKey);
+            const injectedParameterKey = DependencyGraph.paramKey(injectedParameter.parameterKey);
             if (!(this.dependencyGraph.hasNode(serviceKey) && this.dependencyGraph.hasNode(injectedParameterKey))) {
                 throw new MissingServiceDefinitionError(`Trying to inject parameter ${injectedParameterKey} into ${serviceKey} but one of them is not registered`);
             }
             this.dependencyGraph.addLink(injectedParameterKey, serviceKey, injectedParameter);
         });
 
-        this.built = true;
+        return this.dependencyGraph;
     }
 
     detectGraphServiceLeaves(): Node[] {
@@ -107,22 +101,22 @@ class DependencyGraph {
         return leaves;    
     }
 
-    serviceKey(identifier: ServiceIdentifier, tag: string | null) {
+    static serviceKey(identifier: ServiceIdentifier, tag: string | null) {
         let identifierString = identifier.toString();
         if (typeof identifier === 'symbol') identifierString = uniqid();
         else if (typeof identifier === 'function') identifierString = identifier.name;
         return `${identifierString}(${tag || ''})`;
     }
     
-    paramKey(identifier: ServiceIdentifier) {
+    static paramKey(identifier: ServiceIdentifier) {
         let identifierString = identifier.toString();
         if (typeof identifier === 'symbol') identifierString = uniqid();
         else if (typeof identifier === 'function') identifierString = identifier.name;
         return `param-${identifierString}`;
     };
     
-    allServiceKey(identifier: ServiceIdentifier) {
-        return `all-${this.serviceKey(identifier, null)}`;
+    static allServiceKey(identifier: ServiceIdentifier) {
+        return `all-${DependencyGraph.serviceKey(identifier, null)}`;
     };
 }
 

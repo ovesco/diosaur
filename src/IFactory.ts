@@ -1,3 +1,3 @@
 export default interface IFactory {
-    resolve(data: any[]): Promise<Object>;
+    resolve(data?: any[]): Promise<Object> | Object;
 }

@@ -25,6 +25,16 @@ export class Graph {
         return this.nodes.get(nodeId) || null;
     }
 
+    getNodeDependencies(nodeId: string): Node[] {
+        const node = this.getNode(nodeId);
+        if (node) {
+            return node.links
+                .filter((l) => l.toId === node.id)
+                .map((l) => this.getNode(l.fromId) as Node);
+        }
+        else return [];
+    }
+
     hasNode(nodeId: string): boolean {
         return this.nodes.has(nodeId);
     }

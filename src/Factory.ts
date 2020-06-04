@@ -6,18 +6,27 @@ export class BasicFactory implements IFactory {
     constructor(private targetType: Constructor) {
     }
 
-    async resolve(data: any[]) {
-        const { targetType } = this;
-        return new targetType(...data);
+    resolve(data: any[]) {
+        return Reflect.construct(this.targetType, data);
     }
 }
 
 export class FunctionFactory implements IFactory {
     
-    constructor(private serviceMaker: () => Object | Promise<Object>) {
+    constructor(private serviceMaker: (args: any[]) => Object) {
     }
 
-    async resolve() {
-        return await this.serviceMaker();
+    resolve(data: any[]) {
+        return this.serviceMaker(data);
+    }
+}
+
+export class AsyncFunctionFactory implements IFactory {
+
+    constructor(private serviceMaker: (args: any[]) => Promise<Object>) {
+    }
+
+    async resolve(data: any) {
+        return await this.serviceMaker(data);
     }
 }

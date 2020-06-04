@@ -8,6 +8,19 @@ export abstract class BaseInjectedParameter {
     abstract getType(): 'attribute' | 'constructor';
 }
 
+export class AttributeInjectedParameter extends BaseInjectedParameter {
+
+    constructor(public readonly serviceClass: ServiceClassIdentifier,
+        public readonly attributeKey: string | symbol,
+        public readonly parameterKey: string | symbol | Constructor) {
+            super(serviceClass, parameterKey);
+        }
+
+    getType(): 'attribute' {
+        return 'attribute';
+    }
+}
+
 export class ConstructorInjectedParameter extends BaseInjectedParameter {
     constructor(public readonly serviceClass: ServiceClassIdentifier,
         public readonly index: number,
@@ -17,18 +30,5 @@ export class ConstructorInjectedParameter extends BaseInjectedParameter {
 
     getType(): 'constructor' {
         return 'constructor';
-    }
-}
-
-export class AttributeInjectedParameter extends BaseInjectedParameter {
-
-    constructor(public readonly serviceClass: ServiceClassIdentifier,
-        public readonly key: string | symbol,
-        public readonly parameterKey: string | symbol | Constructor) {
-            super(serviceClass, parameterKey);
-        }
-
-    getType(): 'attribute' {
-        return 'attribute';
     }
 }
