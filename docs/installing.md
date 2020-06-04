@@ -29,3 +29,13 @@ import 'reflect-metadata';
 // Load library essentials
 import { Service, Parameter, Inject } from 'diosaur';
 ```
+
+## Using with Deno
+Using Diosaur with Deno is as simple as doing
+```typescript
+// Import reflect-metadata
+import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
+
+// Load library essentials
+import { Service, Parameter, Inject, setParameter, getContainer } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
+```

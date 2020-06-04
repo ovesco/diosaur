@@ -10,17 +10,18 @@
         "outDir": "./dist",
         "declaration": true,
         "rootDir": "src",
+        "skipLibCheck": true,
         "noUnusedParameters": true,
         "moduleResolution": "node"
     },
     "exclude": [
         "dist",
         "node_modules",
-        "deno_dist",
+        "deno-dist",
         "docs",
-        ".github",
-        "./jest.config.js",
         "test",
-        "./mod.ts"
+        "./mod.ts",
+        ".github",
+        "./jest.config.js"
     ]
 }
