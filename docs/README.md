@@ -1,7 +1,17 @@
-# Diosaur
+<div style="display:flex;align-items:center;flex-direction:column;">
+    <img src="./assets/diosaur-logo.png" style="max-width:16rem">
+    <h1 style="margin:2rem 0 0 0">Diosaur</h1>
+    <h3>Dependency Injection for Node and Deno</h3>
+    <div style="display:flex;justify-content:center;margin-bottom:2rem">
+        <a href="https://github.com/ovesco/diosaur">Github</a>
+    </div>
+</div>
 
-Diosaur (which stands for DI-osaur, such a good one tho), is a simple and straightforward dependency
-injection library for Node and Deno.
+<hr/>
+
+Diosaur is a library which allows you to declare objects and services as
+dependencies to other objects and services and so on, building your application
+with ease while it takes care of managing your them.
 
 ```typescript
 @Service()

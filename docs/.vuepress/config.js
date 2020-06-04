@@ -1,7 +1,7 @@
 module.exports = {
     themeConfig: {
         sidebar: [
-            '/',
+            ['/', 'Home'],
             '/installing',
             '/basic-usage',
             '/abstracting-your-services',
