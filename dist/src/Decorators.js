@@ -24,7 +24,6 @@ export const Factory = (createdService, config = {}) => {
         if (!('resolve' in factory)) {
             throw new IncorrectFactoryError(factoryConstructor);
         }
-        // @ts-ignore
         const isPromise = Reflect.getMetadata('design:returntype', factory, 'resolve') === Promise;
         if (config.scoping && config.scoping !== SCOPES.singleton && isPromise) {
             throw new Error('Async factories MUST be scoped as singletons');
