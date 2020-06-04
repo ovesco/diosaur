@@ -14,6 +14,17 @@ dependencies to other objects and services and so on, building your application
 with ease while it takes care of managing them for you.
 
 ```typescript
+import {
+    Service,
+    Parameter,
+    Inject,
+    setParameter,
+    getContainer
+}
+from 'diosaur'; // Node
+from 'https://deno.land/x/diosaur@master/mod.ts'; // Deno
+
+
 @Service()
 class Doggo {
     constructor(@Parameter('doggoName') private name: string) {}

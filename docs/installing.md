@@ -7,6 +7,7 @@ In your `tsconfig.json` file you'll need to enable those two flags for Diosaur t
 {
     "compilerOptions": {
         // ...
+        "lib": ["ES2017"],
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
 
@@ -31,7 +32,7 @@ Then you can initialize it like this:
 import 'reflect-metadata';
 
 // Load library essentials
-import { Service, Parameter, Inject } from 'diosaur';
+import { Service, Inject, getContainer } from 'diosaur';
 ```
 
 ## Using with Deno
@@ -43,7 +44,7 @@ Using Diosaur with Deno is as simple as doing
 import 'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js';
 
 // Load library essentials
-import { Service, Parameter, Inject, setParameter, getContainer } from 'https://raw.githubusercontent.com/ovesco/diosaur/master/mod.ts';
+import { Service, Inject, getContainer } from 'https://deno.land/x/diosaur@master/mod.ts';
 ```
 
 You can then run it with

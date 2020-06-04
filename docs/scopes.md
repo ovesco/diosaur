@@ -17,8 +17,8 @@ class SingletonService {
 }
 
 const container = await getContainer();
-assert(container.get(SingletonService) === container.get(SingletonService));
-assert(container.get(SingletonService).sym === container.get(SingletonService).sym);
+console.log(container.get(SingletonService) === container.get(SingletonService)); // true
+console.log(container.get(SingletonService).sym === container.get(SingletonService).sym); // true
 ```
 
 ## Renewable
@@ -31,8 +31,8 @@ class RenewableService {
 }
 
 // ...
-assert(container.get(RenewableService) !== container.get(RenewableService));
-assert(container.get(RenewableService).sym !== container.get(RenewableService).sym);
+console.log(container.get(RenewableService) === container.get(RenewableService)); // false
+console.log(container.get(RenewableService).sym === container.get(RenewableService).sym); // false
 ```
 
 ## Custom scoped
@@ -50,6 +50,8 @@ A custom scope is actually a period of time in which you can enter and from whic
 you can exit. You can do the following with:
 ```typescript
 const instanceBefore = container.get(CustomScopeService);
+
+// service has no assigned scope overlapping with any running custom scope
 container.get(CustomScopeService) === container.get(CustomScopeService); // false
 
 // Enter scope
@@ -66,7 +68,7 @@ container.exitScope('scope1');
 to it), custom scopes act as renewable, you'll always receive a new instance.
 - When you request a service inside any of it's defined scopes, you'll receive the same instance.
 
-## Overlapping scopes
+## Overlapping custom scopes
 You can have multiple scopes overlapping each other.
 When a service is assigned multiple scopes which we enter and exit with both overlapping, **the service
 instance is kept alive as long as one of its assigned scope is running.**
