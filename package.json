@@ -10,7 +10,7 @@
     "vuepress": "^1.5.0"
   },
   "name": "diosaur",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "guillaume hochet",
   "license": "MIT",
   "keywords": [
