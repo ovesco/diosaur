@@ -11,5 +11,6 @@ module.exports = {
             '/refreshing-services'
         ]
     },
-    base: "/diosaur/"
+    base: "/diosaur/",
+    title: 'Diosaur'
 }
