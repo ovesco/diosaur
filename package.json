@@ -25,7 +25,8 @@
     "build": "tsc && npm run denoify",
     "denoify": "npx denoify",
     "test": "jest",
-    "docs": "vuepress dev docs"
+    "docs": "vuepress dev docs",
+    "build-docs": "vuepress build docs"
   },
   "main": "dist/index.js",
   "denoPorts": {
