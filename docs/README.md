@@ -1,7 +1,8 @@
 <div style="display:flex;align-items:center;flex-direction:column;">
     <img src="./assets/diosaur-logo.png" style="max-width:16rem">
     <h1 style="margin:2rem 0 0 0">Diosaur</h1>
-    <h3>Dependency Injection for Node and Deno with 0 dependencies</h3>
+    <h3>Dependency Injection for Node and Deno</h3>
+    <h4>No dependencies other than <code>reflect-metadata</code></h4>
     <div style="display:flex;justify-content:center;margin-bottom:2rem">
         <a href="https://github.com/ovesco/diosaur">Github</a>
     </div>
@@ -14,17 +15,6 @@ dependencies to other objects and services and so on, building your application
 with ease while it takes care of managing them for you.
 
 ```typescript
-import {
-    Service,
-    Parameter,
-    Inject,
-    setParameter,
-    getContainer
-}
-from 'diosaur'; // Node
-from 'https://deno.land/x/diosaur@master/mod.ts'; // Deno
-
-
 @Service()
 class Doggo {
     constructor(@Parameter('doggoName') private name: string) {}
