@@ -11,7 +11,7 @@
 
 Diosaur is a library which allows you to declare objects and services as
 dependencies to other objects and services and so on, building your application
-with ease while it takes care of managing your them.
+with ease while it takes care of managing them for you.
 
 ```typescript
 @Service()
