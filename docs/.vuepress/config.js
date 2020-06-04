@@ -7,7 +7,8 @@ module.exports = {
             '/abstracting-your-services',
             '/multiple-services',
             '/scopes',
-            '/factory'
+            '/factory',
+            '/refreshing-services'
         ]
     },
     base: "/diosaur/"
