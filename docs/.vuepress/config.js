@@ -9,5 +9,6 @@ module.exports = {
             '/scopes',
             '/factory'
         ]
-    }
+    },
+    base: "/diosaur/"
 }
