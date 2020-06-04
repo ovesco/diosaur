@@ -6,7 +6,8 @@
     "denoify": "^0.2.18",
     "jest": "^26.0.1",
     "reflect-metadata": "^0.1.13",
-    "ts-jest": "^26.1.0"
+    "ts-jest": "^26.1.0",
+    "vuepress": "^1.5.0"
   },
   "name": "diosaur",
   "version": "0.1.0",
