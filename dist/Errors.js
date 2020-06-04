@@ -1,28 +1,36 @@
-export class IncorrectFactoryError extends Error {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class IncorrectFactoryError extends Error {
     constructor(identifier) {
         super(`Factory ${identifier.toString()} must implement the IFactory interface`);
     }
 }
-export class CircularDependencyError extends Error {
+exports.IncorrectFactoryError = IncorrectFactoryError;
+class CircularDependencyError extends Error {
     constructor() {
         super('Circular dependency detected in dependency graph which is not supported yet');
     }
 }
-export class MissingServiceDefinitionError extends Error {
+exports.CircularDependencyError = CircularDependencyError;
+class MissingServiceDefinitionError extends Error {
 }
-export class NotInConstructorError extends Error {
+exports.MissingServiceDefinitionError = MissingServiceDefinitionError;
+class NotInConstructorError extends Error {
     constructor() {
         super('Injecting services or parameters as method parameter can only take place in service constructor');
     }
 }
-export class UnregisteredServiceError extends Error {
+exports.NotInConstructorError = NotInConstructorError;
+class UnregisteredServiceError extends Error {
     constructor(identifier, tag, multi = false) {
         const multiStr = multi ? 'while trying to inject all of them' : `with tag ${tag}`;
         super(`No service registered with identifier ${identifier.toString()} ${multiStr}`);
     }
 }
-export class NotBuiltContainerError extends Error {
+exports.UnregisteredServiceError = UnregisteredServiceError;
+class NotBuiltContainerError extends Error {
     constructor() {
         super('Container not yet built, you cannot query it');
     }
 }
+exports.NotBuiltContainerError = NotBuiltContainerError;

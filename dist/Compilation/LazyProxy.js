@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class LazyProxy {
     constructor(provider) {
         const self = this;
@@ -43,4 +45,4 @@ class LazyProxy {
         });
     }
 }
-export default LazyProxy;
+exports.default = LazyProxy;

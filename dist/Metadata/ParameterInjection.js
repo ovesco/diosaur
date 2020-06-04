@@ -1,10 +1,13 @@
-export class BaseInjectedParameter {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class BaseInjectedParameter {
     constructor(serviceClass, parameterKey) {
         this.serviceClass = serviceClass;
         this.parameterKey = parameterKey;
     }
 }
-export class AttributeInjectedParameter extends BaseInjectedParameter {
+exports.BaseInjectedParameter = BaseInjectedParameter;
+class AttributeInjectedParameter extends BaseInjectedParameter {
     constructor(serviceClass, attributeKey, parameterKey) {
         super(serviceClass, parameterKey);
         this.serviceClass = serviceClass;
@@ -15,7 +18,8 @@ export class AttributeInjectedParameter extends BaseInjectedParameter {
         return 'attribute';
     }
 }
-export class ConstructorInjectedParameter extends BaseInjectedParameter {
+exports.AttributeInjectedParameter = AttributeInjectedParameter;
+class ConstructorInjectedParameter extends BaseInjectedParameter {
     constructor(serviceClass, index, parameterKey) {
         super(serviceClass, parameterKey);
         this.serviceClass = serviceClass;
@@ -26,3 +30,4 @@ export class ConstructorInjectedParameter extends BaseInjectedParameter {
         return 'constructor';
     }
 }
+exports.ConstructorInjectedParameter = ConstructorInjectedParameter;

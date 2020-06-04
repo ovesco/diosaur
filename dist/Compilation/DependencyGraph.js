@@ -1,6 +1,8 @@
-import { Graph } from "./Graph";
-import { MissingServiceDefinitionError } from "../Errors";
-import { resolveTag, uniqid } from "../Utils";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Graph_1 = require("./Graph");
+const Errors_1 = require("../Errors");
+const Utils_1 = require("../Utils");
 class DependencyGraph {
     constructor(factories, injections, injectedParameters, allInjections, parameterBag) {
         this.factories = factories;
@@ -8,7 +10,7 @@ class DependencyGraph {
         this.injectedParameters = injectedParameters;
         this.allInjections = allInjections;
         this.parameterBag = parameterBag;
-        this.dependencyGraph = new Graph();
+        this.dependencyGraph = new Graph_1.Graph();
         this.serviceClassToKey = new Map();
         this.identifierServices = new Map();
     }
@@ -36,9 +38,9 @@ class DependencyGraph {
         });
         this.injections.forEach((injectedService) => {
             const serviceKey = this.serviceClassToKey.get(injectedService.serviceClass);
-            const injectedServiceKey = DependencyGraph.serviceKey(injectedService.config.identifier, resolveTag(injectedService.config.tag, this.parameterBag));
+            const injectedServiceKey = DependencyGraph.serviceKey(injectedService.config.identifier, Utils_1.resolveTag(injectedService.config.tag, this.parameterBag));
             if (!this.dependencyGraph.hasNode(serviceKey) || !this.dependencyGraph.hasNode(injectedServiceKey)) {
-                throw new MissingServiceDefinitionError(`Trying to inject service ${injectedServiceKey} into ${serviceKey} but one of them is not registered`);
+                throw new Errors_1.MissingServiceDefinitionError(`Trying to inject service ${injectedServiceKey} into ${serviceKey} but one of them is not registered`);
             }
             this.dependencyGraph.addLink(injectedServiceKey, serviceKey, injectedService);
         });
@@ -47,7 +49,7 @@ class DependencyGraph {
             const allKey = DependencyGraph.allServiceKey(identifier);
             const serviceKey = this.serviceClassToKey.get(registeredAllInjection.serviceClass);
             if (!this.dependencyGraph.hasNode(serviceKey) || !this.identifierServices.has(identifier)) {
-                throw new MissingServiceDefinitionError(`Trying to inject ${allKey} services into ${serviceKey} but one of those definition doesn't exist`);
+                throw new Errors_1.MissingServiceDefinitionError(`Trying to inject ${allKey} services into ${serviceKey} but one of those definition doesn't exist`);
             }
             if (!this.dependencyGraph.hasNode(allKey)) {
                 this.dependencyGraph.addNode(allKey);
@@ -62,7 +64,7 @@ class DependencyGraph {
             const serviceKey = this.serviceClassToKey.get(injectedParameter.serviceClass);
             const injectedParameterKey = DependencyGraph.paramKey(injectedParameter.parameterKey);
             if (!(this.dependencyGraph.hasNode(serviceKey) && this.dependencyGraph.hasNode(injectedParameterKey))) {
-                throw new MissingServiceDefinitionError(`Trying to inject parameter ${injectedParameterKey} into ${serviceKey} but one of them is not registered`);
+                throw new Errors_1.MissingServiceDefinitionError(`Trying to inject parameter ${injectedParameterKey} into ${serviceKey} but one of them is not registered`);
             }
             this.dependencyGraph.addLink(injectedParameterKey, serviceKey, injectedParameter);
         });
@@ -82,7 +84,7 @@ class DependencyGraph {
     static serviceKey(identifier, tag) {
         let identifierString = identifier.toString();
         if (typeof identifier === 'symbol')
-            identifierString = uniqid();
+            identifierString = Utils_1.uniqid();
         else if (typeof identifier === 'function')
             identifierString = identifier.name;
         return `${identifierString}(${tag || ''})`;
@@ -90,7 +92,7 @@ class DependencyGraph {
     static paramKey(identifier) {
         let identifierString = identifier.toString();
         if (typeof identifier === 'symbol')
-            identifierString = uniqid();
+            identifierString = Utils_1.uniqid();
         else if (typeof identifier === 'function')
             identifierString = identifier.name;
         return `param-${identifierString}`;
@@ -101,4 +103,4 @@ class DependencyGraph {
     }
     ;
 }
-export default DependencyGraph;
+exports.default = DependencyGraph;

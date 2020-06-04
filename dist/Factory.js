@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -6,7 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-export class BasicFactory {
+Object.defineProperty(exports, "__esModule", { value: true });
+class BasicFactory {
     constructor(targetType) {
         this.targetType = targetType;
     }
@@ -14,7 +16,8 @@ export class BasicFactory {
         return Reflect.construct(this.targetType, data);
     }
 }
-export class FunctionFactory {
+exports.BasicFactory = BasicFactory;
+class FunctionFactory {
     constructor(serviceMaker) {
         this.serviceMaker = serviceMaker;
     }
@@ -22,7 +25,8 @@ export class FunctionFactory {
         return this.serviceMaker(data);
     }
 }
-export class AsyncFunctionFactory {
+exports.FunctionFactory = FunctionFactory;
+class AsyncFunctionFactory {
     constructor(serviceMaker) {
         this.serviceMaker = serviceMaker;
     }
@@ -32,3 +36,4 @@ export class AsyncFunctionFactory {
         });
     }
 }
+exports.AsyncFunctionFactory = AsyncFunctionFactory;

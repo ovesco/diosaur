@@ -1,11 +1,14 @@
-export class BaseInjectAllService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class BaseInjectAllService {
     constructor(serviceClass, identifier, refresh) {
         this.serviceClass = serviceClass;
         this.identifier = identifier;
         this.refresh = refresh;
     }
 }
-export class AttributeInjectAllService extends BaseInjectAllService {
+exports.BaseInjectAllService = BaseInjectAllService;
+class AttributeInjectAllService extends BaseInjectAllService {
     constructor(serviceClass, identifier, attributeKey, refresh) {
         super(serviceClass, identifier, refresh);
         this.serviceClass = serviceClass;
@@ -17,7 +20,8 @@ export class AttributeInjectAllService extends BaseInjectAllService {
         return 'attribute';
     }
 }
-export class ConstructorInjectAllService extends BaseInjectAllService {
+exports.AttributeInjectAllService = AttributeInjectAllService;
+class ConstructorInjectAllService extends BaseInjectAllService {
     constructor(serviceClass, identifier, index, refresh) {
         super(serviceClass, identifier, refresh);
         this.serviceClass = serviceClass;
@@ -29,3 +33,4 @@ export class ConstructorInjectAllService extends BaseInjectAllService {
         return 'constructor';
     }
 }
+exports.ConstructorInjectAllService = ConstructorInjectAllService;

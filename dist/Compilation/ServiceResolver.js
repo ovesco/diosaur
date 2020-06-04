@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -6,14 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import RegisteredFactory from "../Metadata/RegisteredFactory";
-import { BaseInjectedService } from "../Metadata/ServiceInjection";
-import { BaseInjectedParameter } from "../Metadata/ParameterInjection";
-import { BaseInjectAllService } from "../Metadata/AllServiceInjection";
-import DependencyGraph from "./DependencyGraph";
-import { SCOPES } from "../Decorators";
-import { UnregisteredServiceError } from "../Errors";
-import LazyProxy from "./LazyProxy";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const RegisteredFactory_1 = __importDefault(require("../Metadata/RegisteredFactory"));
+const ServiceInjection_1 = require("../Metadata/ServiceInjection");
+const ParameterInjection_1 = require("../Metadata/ParameterInjection");
+const AllServiceInjection_1 = require("../Metadata/AllServiceInjection");
+const DependencyGraph_1 = __importDefault(require("./DependencyGraph"));
+const Decorators_1 = require("../Decorators");
+const Errors_1 = require("../Errors");
+const LazyProxy_1 = __importDefault(require("./LazyProxy"));
 class ServiceResolver {
     constructor(factories, injections, registeredParameters, registeredAllInjections, parameters) {
         this.factories = factories;
@@ -21,7 +26,7 @@ class ServiceResolver {
         this.identifierTags = new Map();
         this.scopeServices = new Map();
         this.singletons = new Map();
-        const graph = new DependencyGraph(factories, injections, registeredParameters, registeredAllInjections, parameters);
+        const graph = new DependencyGraph_1.default(factories, injections, registeredParameters, registeredAllInjections, parameters);
         this.graph = graph.build();
         factories.forEach((injection) => {
             const { tag, identifier } = injection.config;
@@ -37,7 +42,7 @@ class ServiceResolver {
         return __awaiter(this, void 0, void 0, function* () {
             const singletons = [];
             this.graph.forEachNode((node) => {
-                if (node.data instanceof RegisteredFactory && node.data.config.scoping === SCOPES.singleton) {
+                if (node.data instanceof RegisteredFactory_1.default && node.data.config.scoping === Decorators_1.SCOPES.singleton) {
                     singletons.push(node);
                 }
             });
@@ -62,7 +67,7 @@ class ServiceResolver {
             this.scopeServices.delete(scope);
             services.forEach((tagsServices, identifier) => {
                 tagsServices.forEach((service, tag) => {
-                    const { config } = this.graph.getNode(DependencyGraph.serviceKey(identifier, tag)).data;
+                    const { config } = this.graph.getNode(DependencyGraph_1.default.serviceKey(identifier, tag)).data;
                     const intersectingScopes = this.getCurrentScopes().filter(it => config.customScopes.includes(it));
                     if (intersectingScopes.length > 0) {
                         const nextScope = intersectingScopes[0];
@@ -84,23 +89,23 @@ class ServiceResolver {
     }
     getAll(identifier) {
         if (!this.identifierTags.has(identifier)) {
-            throw new UnregisteredServiceError(identifier, null, true);
+            throw new Errors_1.UnregisteredServiceError(identifier, null, true);
         }
         return this.identifierTags.get(identifier).map(tag => this.get(identifier, tag));
     }
     get(identifier, tag) {
         tag = this.resolveTag(tag);
-        const node = this.graph.getNode(DependencyGraph.serviceKey(identifier, tag));
+        const node = this.graph.getNode(DependencyGraph_1.default.serviceKey(identifier, tag));
         if (!node) {
-            throw new UnregisteredServiceError(identifier, tag);
+            throw new Errors_1.UnregisteredServiceError(identifier, tag);
         }
         const serviceConfig = node.data;
         switch (serviceConfig.config.scoping) {
-            case SCOPES.singleton:
+            case Decorators_1.SCOPES.singleton:
                 return this.singletons.get(identifier).get(tag);
-            case SCOPES.newable:
+            case Decorators_1.SCOPES.newable:
                 return this.instanciate(node);
-            case SCOPES.custom:
+            case Decorators_1.SCOPES.custom:
                 const availableScopes = this.getCurrentScopes().filter(it => serviceConfig.config.customScopes.includes(it));
                 for (const scope of availableScopes) {
                     if (this.scopeServices.has(scope)
@@ -182,17 +187,17 @@ class ServiceResolver {
         node.links.filter((link) => link.toId === node.id).forEach((dependencyLink) => {
             const { data } = dependencyLink;
             let arg = null;
-            if (data instanceof BaseInjectedParameter) {
+            if (data instanceof ParameterInjection_1.BaseInjectedParameter) {
                 arg = this.getParameter(data.parameterKey);
             }
-            else if (data instanceof BaseInjectedService) {
+            else if (data instanceof ServiceInjection_1.BaseInjectedService) {
                 arg = data.config.refresh
-                    ? new LazyProxy(() => this.get(data.config.identifier, data.config.tag))
+                    ? new LazyProxy_1.default(() => this.get(data.config.identifier, data.config.tag))
                     : this.get(data.config.identifier, data.config.tag);
             }
-            else if (data instanceof BaseInjectAllService) {
+            else if (data instanceof AllServiceInjection_1.BaseInjectAllService) {
                 arg = data.refresh
-                    ? new LazyProxy(() => this.getAll(data.identifier))
+                    ? new LazyProxy_1.default(() => this.getAll(data.identifier))
                     : this.getAll(data.identifier);
             }
             this.setTo(parameters, attributes, arg, data);
@@ -212,17 +217,17 @@ class ServiceResolver {
             });
             for (const data of dependencyLinksData) {
                 let arg = null;
-                if (data instanceof BaseInjectedParameter) {
+                if (data instanceof ParameterInjection_1.BaseInjectedParameter) {
                     arg = this.getParameter(data.parameterKey);
                 }
-                else if (data instanceof BaseInjectedService) {
+                else if (data instanceof ServiceInjection_1.BaseInjectedService) {
                     arg = data.config.refresh
-                        ? new LazyProxy(() => this.get(data.config.identifier, data.config.tag))
+                        ? new LazyProxy_1.default(() => this.get(data.config.identifier, data.config.tag))
                         : yield this.getAsync(data.config.identifier, data.config.tag);
                 }
-                else if (data instanceof BaseInjectAllService) {
+                else if (data instanceof AllServiceInjection_1.BaseInjectAllService) {
                     arg = data.refresh
-                        ? new LazyProxy(() => this.getAll(data.identifier))
+                        ? new LazyProxy_1.default(() => this.getAll(data.identifier))
                         : yield this.getAllAsync(data.identifier);
                 }
                 this.setTo(parameters, attributes, arg, data);
@@ -236,7 +241,7 @@ class ServiceResolver {
     getAllAsync(identifier) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.identifierTags.has(identifier)) {
-                throw new UnregisteredServiceError(identifier, null, true);
+                throw new Errors_1.UnregisteredServiceError(identifier, null, true);
             }
             const services = [];
             // @ts-ignore
@@ -249,12 +254,12 @@ class ServiceResolver {
     getAsync(identifier, tag) {
         return __awaiter(this, void 0, void 0, function* () {
             tag = this.resolveTag(tag);
-            const node = this.graph.getNode(DependencyGraph.serviceKey(identifier, tag));
+            const node = this.graph.getNode(DependencyGraph_1.default.serviceKey(identifier, tag));
             if (!node) {
-                throw new UnregisteredServiceError(identifier, tag);
+                throw new Errors_1.UnregisteredServiceError(identifier, tag);
             }
             const data = node.data;
-            if (data.config.scoping === SCOPES.singleton) {
+            if (data.config.scoping === Decorators_1.SCOPES.singleton) {
                 const existingInstance = this.singletons.get(data.config.identifier).get(data.config.tag);
                 return existingInstance ? existingInstance : yield this.instanciateAsync(node);
             }
@@ -263,4 +268,4 @@ class ServiceResolver {
         });
     }
 }
-export default ServiceResolver;
+exports.default = ServiceResolver;

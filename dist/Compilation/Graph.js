@@ -1,18 +1,22 @@
-export class Link {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Link {
     constructor(fromId, toId, data = null) {
         this.fromId = fromId;
         this.toId = toId;
         this.data = data;
     }
 }
-export class Node {
+exports.Link = Link;
+class Node {
     constructor(id, data = null) {
         this.id = id;
         this.data = data;
         this.links = [];
     }
 }
-export class Graph {
+exports.Node = Node;
+class Graph {
     constructor() {
         this.nodes = new Map();
     }
@@ -58,3 +62,4 @@ export class Graph {
         }
     }
 }
+exports.Graph = Graph;

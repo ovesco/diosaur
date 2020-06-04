@@ -2,6 +2,7 @@
     "compilerOptions": {
         "lib": ["dom", "ES2015"],
         "esModuleInterop": true,
+        "module": "CommonJS",
         "target": "ES6",
         "experimentalDecorators": true,
         "strictPropertyInitialization": false,

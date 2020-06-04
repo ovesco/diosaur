@@ -1,4 +1,6 @@
-export const resolveTag = (tag, parameterBag) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resolveTag = (tag, parameterBag) => {
     if (tag !== null && tag.charAt(0) === '@') {
         return parameterBag.get(tag.slice(1));
     }
@@ -6,6 +8,6 @@ export const resolveTag = (tag, parameterBag) => {
         return tag;
     }
 };
-export const uniqid = () => {
+exports.uniqid = () => {
     return `${Math.floor(Math.random() * 10000)}${Date.now()}`;
 };

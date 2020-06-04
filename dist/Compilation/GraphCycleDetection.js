@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class GraphCycleDetection {
     constructor(graph) {
         this.graph = graph;
@@ -28,4 +30,4 @@ class GraphCycleDetection {
         return result;
     }
 }
-export default GraphCycleDetection;
+exports.default = GraphCycleDetection;

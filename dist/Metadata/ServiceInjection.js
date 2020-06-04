@@ -1,10 +1,13 @@
-export class BaseInjectedService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class BaseInjectedService {
     constructor(serviceClass, config) {
         this.serviceClass = serviceClass;
         this.config = config;
     }
 }
-export class AttributeInjectedService extends BaseInjectedService {
+exports.BaseInjectedService = BaseInjectedService;
+class AttributeInjectedService extends BaseInjectedService {
     constructor(serviceClass, attributeKey, config) {
         super(serviceClass, config);
         this.serviceClass = serviceClass;
@@ -15,7 +18,8 @@ export class AttributeInjectedService extends BaseInjectedService {
         return 'attribute';
     }
 }
-export class ConstructorInjectedService extends BaseInjectedService {
+exports.AttributeInjectedService = AttributeInjectedService;
+class ConstructorInjectedService extends BaseInjectedService {
     constructor(serviceClass, index, config) {
         super(serviceClass, config);
         this.serviceClass = serviceClass;
@@ -26,3 +30,4 @@ export class ConstructorInjectedService extends BaseInjectedService {
         return 'constructor';
     }
 }
+exports.ConstructorInjectedService = ConstructorInjectedService;

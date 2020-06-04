@@ -1,4 +1,6 @@
-export class Container {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Container {
     constructor(resolver) {
         this.resolver = resolver;
     }
@@ -18,3 +20,4 @@ export class Container {
         return this.resolver.getAll(targetType);
     }
 }
+exports.Container = Container;
