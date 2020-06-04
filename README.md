@@ -1,5 +1,10 @@
+<p align="center">
+    <img width="200" src="https://user-images.githubusercontent.com/8458666/83355360-616d6000-a35f-11ea-9078-732542670707.jpg">
+</p>
+
 # Diosaur
-#### A small dependency injection library with no dependencies except for `reflect-metadata`
+#### A small dependency injection for Node and Deno (with Denoify).
+
 
 Diosaur is a small dependency injection solution written in Typescript for Deno and node which aims at making you write the minimum
 of code, avoiding obvious bindings and other repetitive stuff. It internally depends on `reflect-metadata` to guess
