@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ConstructorInjectedParameter = exports.AttributeInjectedParameter = exports.BaseInjectedParameter = void 0;
 class BaseInjectedParameter {
     constructor(serviceClass, parameterKey) {
         this.serviceClass = serviceClass;
@@ -31,3 +32,4 @@ class ConstructorInjectedParameter extends BaseInjectedParameter {
     }
 }
 exports.ConstructorInjectedParameter = ConstructorInjectedParameter;
+//# sourceMappingURL=ParameterInjection.js.map

@@ -13,10 +13,12 @@
         "rootDir": "src",
         "skipLibCheck": true,
         "noUnusedParameters": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "sourceMap": true
     },
     "exclude": [
         "dist",
+        "dist-rsm",
         "node_modules",
         "deno-dist",
         "docs",

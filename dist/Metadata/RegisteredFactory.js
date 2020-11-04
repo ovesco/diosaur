@@ -8,3 +8,4 @@ class RegisteredFactory {
     }
 }
 exports.default = RegisteredFactory;
+//# sourceMappingURL=RegisteredFactory.js.map

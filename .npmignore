@@ -1,0 +1,9 @@
+src
+deno-dist
+docs
+test
+mod.ts
+jest.config.js
+tsconfig.json
+.github
+node_modules

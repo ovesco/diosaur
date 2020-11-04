@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Parameter = exports.InjectAll = exports.Inject = exports.defaultInjectConfig = exports.Factory = exports.Service = exports.defaultConfig = exports.SCOPES = void 0;
 const Registrer_1 = __importDefault(require("./Metadata/Registrer"));
 const Errors_1 = require("./Errors");
 ;
@@ -19,7 +20,7 @@ exports.defaultConfig = (identifier) => ({
 });
 exports.Service = (config = {}) => {
     return (target) => {
-        Registrer_1.default.registerService(target, Object.assign({}, exports.defaultConfig(target), config));
+        Registrer_1.default.registerService(target, Object.assign(Object.assign({}, exports.defaultConfig(target)), config));
     };
 };
 /** Factory */
@@ -34,7 +35,7 @@ exports.Factory = (createdService, config = {}) => {
         if (config.scoping && config.scoping !== exports.SCOPES.singleton && isPromise) {
             throw new Error('Async factories MUST be scoped as singletons');
         }
-        Registrer_1.default.registerFactory(factory, createdService, Object.assign({}, exports.defaultConfig(createdService), config));
+        Registrer_1.default.registerFactory(factory, createdService, Object.assign(Object.assign({}, exports.defaultConfig(createdService)), config));
     };
 };
 exports.defaultInjectConfig = (identifier) => ({
@@ -50,13 +51,13 @@ exports.Inject = (config = {}) => {
             }
             // @ts-ignore
             const constructorParamTypes = Reflect.getMetadata('design:paramtypes', target, key);
-            const finalConfig = Object.assign({}, exports.defaultInjectConfig(constructorParamTypes[index]), config);
+            const finalConfig = Object.assign(Object.assign({}, exports.defaultInjectConfig(constructorParamTypes[index])), config);
             Registrer_1.default.registerConstructorInject(target, index, finalConfig);
         }
         else {
             // @ts-ignore
             const serviceIdentifier = Reflect.getMetadata('design:type', target, key);
-            const finalConfig = Object.assign({}, exports.defaultInjectConfig(serviceIdentifier), config);
+            const finalConfig = Object.assign(Object.assign({}, exports.defaultInjectConfig(serviceIdentifier)), config);
             Registrer_1.default.registerAttributeInject(target.constructor, key, finalConfig);
         }
     };
@@ -98,3 +99,4 @@ exports.Parameter = (paramKey) => {
         }
     };
 };
+//# sourceMappingURL=Decorators.js.map

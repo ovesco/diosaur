@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Graph = exports.Node = exports.Link = void 0;
 class Link {
     constructor(fromId, toId, data = null) {
         this.fromId = fromId;
@@ -63,3 +64,4 @@ class Graph {
     }
 }
 exports.Graph = Graph;
+//# sourceMappingURL=Graph.js.map

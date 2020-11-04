@@ -1,18 +1,10 @@
 {
-  "devDependencies": {
-    "@types/jest": "^25.2.3",
-    "@types/node": "^14.0.6",
-    "@types/reflect-metadata": "^0.1.0",
-    "deno-module-extension-resolver": "^0.2.0",
-    "jest": "^26.0.1",
-    "reflect-metadata": "^0.1.13",
-    "ts-jest": "^26.1.0",
-    "vuepress": "^1.5.0"
-  },
   "name": "diosaur",
-  "version": "0.2.1",
-  "author": "guillaume hochet",
+  "version": "0.2.2",
+  "author": "ovesco",
   "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist-esm/index.js",
   "keywords": [
     "inversion",
     "of",
@@ -23,10 +15,23 @@
   ],
   "description": "A small dependency injection library in typescript",
   "scripts": {
-    "build": "tsc && deno-module-extension-resolver ./src ./deno-dist",
+    "build": "npm run clean && npm run build:esm && npm run build:deno",
+    "build:deno": "deno-module-extension-resolver ./src ./deno-dist",
+    "build:esm": "tsc && tsc -m es6 --outDir dist-esm",
     "test": "jest",
     "docs": "vuepress dev docs",
-    "build-docs": "vuepress build docs"
+    "build-docs": "vuepress build docs",
+    "clean": "shx rm -rf dist deno-dist dist-esm"
   },
-  "main": "dist/index.js"
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.6",
+    "@types/reflect-metadata": "^0.1.0",
+    "deno-module-extension-resolver": "^0.2.0",
+    "jest": "^26.0.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-jest": "^26.1.0",
+    "vuepress": "^1.5.0",
+    "shx": "^0.3.3"
+  }
 }
