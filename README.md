@@ -9,6 +9,7 @@ the maximum indications out of your code, but still allows you for finer definit
 
 ## Example
 ```typescript
+import 'reflect-metadata';
 import { Service, Parameter, Inject, setParameter, getContainer } from 'diosaur';
 
 @Service()

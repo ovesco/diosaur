@@ -19,6 +19,9 @@ This library requires typescript to work as it is based on Annotations.
 :::
 
 ```typescript
+import 'reflect-metadata';
+import { Service, Parameter, Inject, setParameter, getContainer } from 'diosaur';
+
 @Service()
 class Doggo {
     constructor(@Parameter('doggoName') private name: string) {}
