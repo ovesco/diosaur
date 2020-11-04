@@ -21,7 +21,8 @@
     "test": "jest",
     "docs": "vuepress dev docs",
     "build-docs": "vuepress build docs",
-    "clean": "shx rm -rf dist deno-dist dist-esm"
+    "clean": "shx rm -rf dist deno-dist dist-esm",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",

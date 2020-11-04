@@ -5,6 +5,8 @@ Diosaur is a small dependency injection solution written in Typescript for Deno 
 of code, avoiding obvious bindings and other repetitive stuff. It internally depends on `reflect-metadata` to guess
 the maximum indications out of your code, but still allows you for finer definition of your services.
 
+## Please note that you require Typescript to use this library, as it makes usage of Annotations to work.
+
 ## Example
 ```typescript
 @Service()
