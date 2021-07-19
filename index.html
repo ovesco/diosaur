@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Diosaur</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/diosaur/assets/css/0.styles.75d44e13.css" as="style"><link rel="preload" href="/diosaur/assets/js/app.78af5fd7.js" as="script"><link rel="preload" href="/diosaur/assets/js/2.2fc601cf.js" as="script"><link rel="preload" href="/diosaur/assets/js/6.c773b65d.js" as="script"><link rel="prefetch" href="/diosaur/assets/js/10.9882fea3.js"><link rel="prefetch" href="/diosaur/assets/js/11.508140f6.js"><link rel="prefetch" href="/diosaur/assets/js/12.4f7aa100.js"><link rel="prefetch" href="/diosaur/assets/js/13.006e1ffb.js"><link rel="prefetch" href="/diosaur/assets/js/14.d13c86c5.js"><link rel="prefetch" href="/diosaur/assets/js/3.f6425a68.js"><link rel="prefetch" href="/diosaur/assets/js/4.0ed284d6.js"><link rel="prefetch" href="/diosaur/assets/js/5.ac6a50e5.js"><link rel="prefetch" href="/diosaur/assets/js/7.2fd9406d.js"><link rel="prefetch" href="/diosaur/assets/js/8.6148114a.js"><link rel="prefetch" href="/diosaur/assets/js/9.8267a252.js">
+    <link rel="stylesheet" href="/diosaur/assets/css/0.styles.75d44e13.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/diosaur/" aria-current="page" class="home-link router-link-exact-active router-link-active"><!----> <span class="site-name">Diosaur</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/diosaur/" aria-current="page" class="active sidebar-link">Home</a></li><li><a href="/diosaur/installing.html" class="sidebar-link">Installing</a></li><li><a href="/diosaur/basic-usage.html" class="sidebar-link">Basic usage</a></li><li><a href="/diosaur/abstracting-your-services.html" class="sidebar-link">Abstracting your services</a></li><li><a href="/diosaur/multiple-services.html" class="sidebar-link">Injecting multiple services</a></li><li><a href="/diosaur/scopes.html" class="sidebar-link">Services scopes</a></li><li><a href="/diosaur/factory.html" class="sidebar-link">Factories</a></li><li><a href="/diosaur/refreshing-services.html" class="sidebar-link">Refreshing services</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><div style="display:flex;align-items:center;flex-direction:column;"><img src="/diosaur/assets/img/diosaur-logo.e090d0db.png" style="max-width:16rem;"> <h1 style="margin:2rem 0 0 0;">Diosaur</h1> <h3 style="margin-bottom:0;">Dependency Injection for Node and Deno</h3> <h4>No dependencies other than <code>reflect-metadata</code></h4> <div style="display:flex;justify-content:center;margin-bottom:2rem;"><a href="https://github.com/ovesco/diosaur">Github</a></div></div> <hr> <p>Diosaur is a library which allows you to declare objects and services as
+dependencies to other objects and services and so on, building your application
+with ease while it takes care of managing them for you.</p> <div class="custom-block warning"><p class="custom-block-title">WARNING</p> <p>This library requires typescript to work as it is based on Annotations.</p></div> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token string">'reflect-metadata'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Service<span class="token punctuation">,</span> Parameter<span class="token punctuation">,</span> Inject<span class="token punctuation">,</span> setParameter<span class="token punctuation">,</span> getContainer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'diosaur'</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Doggo</span> <span class="token punctuation">{</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Parameter</span></span><span class="token punctuation">(</span><span class="token string">'doggoName'</span><span class="token punctuation">)</span> <span class="token keyword">private</span> name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token function">bark</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">JonSnow</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Inject</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> doggo<span class="token operator">:</span> Doggo<span class="token punctuation">;</span>
+
+    <span class="token function">yell</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">I'm Jon with my doggo </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span><span class="token keyword">this</span><span class="token punctuation">.</span>doggo<span class="token punctuation">.</span><span class="token function">bark</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> !</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">setParameter</span><span class="token punctuation">(</span><span class="token string">'doggoName'</span><span class="token punctuation">,</span> <span class="token string">'Ghost'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">getContainer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>container<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> jon <span class="token operator">=</span> container<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>JonSnow<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>jon<span class="token punctuation">.</span><span class="token function">yell</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><!----> <span class="next"><a href="/diosaur/installing.html">
+        Installing
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/diosaur/assets/js/app.78af5fd7.js" defer></script><script src="/diosaur/assets/js/2.2fc601cf.js" defer></script><script src="/diosaur/assets/js/6.c773b65d.js" defer></script>
+  </body>
+</html>

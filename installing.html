@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Installing | Diosaur</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/diosaur/assets/css/0.styles.75d44e13.css" as="style"><link rel="preload" href="/diosaur/assets/js/app.78af5fd7.js" as="script"><link rel="preload" href="/diosaur/assets/js/2.2fc601cf.js" as="script"><link rel="preload" href="/diosaur/assets/js/12.4f7aa100.js" as="script"><link rel="prefetch" href="/diosaur/assets/js/10.9882fea3.js"><link rel="prefetch" href="/diosaur/assets/js/11.508140f6.js"><link rel="prefetch" href="/diosaur/assets/js/13.006e1ffb.js"><link rel="prefetch" href="/diosaur/assets/js/14.d13c86c5.js"><link rel="prefetch" href="/diosaur/assets/js/3.f6425a68.js"><link rel="prefetch" href="/diosaur/assets/js/4.0ed284d6.js"><link rel="prefetch" href="/diosaur/assets/js/5.ac6a50e5.js"><link rel="prefetch" href="/diosaur/assets/js/6.c773b65d.js"><link rel="prefetch" href="/diosaur/assets/js/7.2fd9406d.js"><link rel="prefetch" href="/diosaur/assets/js/8.6148114a.js"><link rel="prefetch" href="/diosaur/assets/js/9.8267a252.js">
+    <link rel="stylesheet" href="/diosaur/assets/css/0.styles.75d44e13.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/diosaur/" class="home-link router-link-active"><!----> <span class="site-name">Diosaur</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/diosaur/" aria-current="page" class="sidebar-link">Home</a></li><li><a href="/diosaur/installing.html" aria-current="page" class="active sidebar-link">Installing</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/diosaur/installing.html#modifying-your-tsconfig-json" class="sidebar-link">Modifying your tsconfig.json</a></li><li class="sidebar-sub-header"><a href="/diosaur/installing.html#using-with-node" class="sidebar-link">Using with node</a></li><li class="sidebar-sub-header"><a href="/diosaur/installing.html#using-with-deno" class="sidebar-link">Using with Deno</a></li></ul></li><li><a href="/diosaur/basic-usage.html" class="sidebar-link">Basic usage</a></li><li><a href="/diosaur/abstracting-your-services.html" class="sidebar-link">Abstracting your services</a></li><li><a href="/diosaur/multiple-services.html" class="sidebar-link">Injecting multiple services</a></li><li><a href="/diosaur/scopes.html" class="sidebar-link">Services scopes</a></li><li><a href="/diosaur/factory.html" class="sidebar-link">Factories</a></li><li><a href="/diosaur/refreshing-services.html" class="sidebar-link">Refreshing services</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="installing"><a href="#installing" class="header-anchor">#</a> Installing</h1> <p>Diosaur is available for both Node and Deno.</p> <h2 id="modifying-your-tsconfig-json"><a href="#modifying-your-tsconfig-json" class="header-anchor">#</a> Modifying your tsconfig.json</h2> <p>In your <code>tsconfig.json</code> file you'll need to enable those two flags for Diosaur to work:</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+    <span class="token property">&quot;compilerOptions&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token comment">// ...</span>
+        <span class="token property">&quot;lib&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;ES2017&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;experimentalDecorators&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;emitDecoratorMetadata&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+
+        <span class="token comment">// This will be necessary for attribute injection</span>
+        <span class="token comment">// Not necessary if you only inject dependencies through constructor</span>
+        <span class="token property">&quot;strictPropertyInitialization&quot;</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>This is required for Diosaur to infer and detect types of your objects and reference correct
+dependencies.</p> <h2 id="using-with-node"><a href="#using-with-node" class="header-anchor">#</a> Using with node</h2> <p>To use Diosaur with node, first install the library along with <code>reflect-metadata</code> which is required:</p> <div class="language- extra-class"><pre class="language-text"><code>npm install --save diosaur reflect-metadata
+</code></pre></div><p>Then you can initialize it like this:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// Load reflect-metadata</span>
+<span class="token keyword">import</span> <span class="token string">'reflect-metadata'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Load library essentials</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Service<span class="token punctuation">,</span> Inject<span class="token punctuation">,</span> getContainer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'diosaur'</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="using-with-deno"><a href="#using-with-deno" class="header-anchor">#</a> Using with Deno</h2> <p>Using Diosaur with Deno is as simple as doing</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token comment">// index.ts</span>
+
+<span class="token comment">// Import reflect-metadata</span>
+<span class="token keyword">import</span> <span class="token string">'https://raw.githubusercontent.com/rbuckton/reflect-metadata/master/Reflect.js'</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Load library essentials</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Service<span class="token punctuation">,</span> Inject<span class="token punctuation">,</span> getContainer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'https://deno.land/x/diosaur@master/mod.ts'</span><span class="token punctuation">;</span>
+</code></pre></div><p>You can then run it with</p> <div class="language- extra-class"><pre class="language-text"><code>deno run -c tsconfig.json index.ts
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/diosaur/" class="prev router-link-active">
+        Home
+      </a></span> <span class="next"><a href="/diosaur/basic-usage.html">
+        Basic usage
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/diosaur/assets/js/app.78af5fd7.js" defer></script><script src="/diosaur/assets/js/2.2fc601cf.js" defer></script><script src="/diosaur/assets/js/12.4f7aa100.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Abstracting your services | Diosaur</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/diosaur/assets/css/0.styles.75d44e13.css" as="style"><link rel="preload" href="/diosaur/assets/js/app.78af5fd7.js" as="script"><link rel="preload" href="/diosaur/assets/js/2.2fc601cf.js" as="script"><link rel="preload" href="/diosaur/assets/js/9.8267a252.js" as="script"><link rel="prefetch" href="/diosaur/assets/js/10.9882fea3.js"><link rel="prefetch" href="/diosaur/assets/js/11.508140f6.js"><link rel="prefetch" href="/diosaur/assets/js/12.4f7aa100.js"><link rel="prefetch" href="/diosaur/assets/js/13.006e1ffb.js"><link rel="prefetch" href="/diosaur/assets/js/14.d13c86c5.js"><link rel="prefetch" href="/diosaur/assets/js/3.f6425a68.js"><link rel="prefetch" href="/diosaur/assets/js/4.0ed284d6.js"><link rel="prefetch" href="/diosaur/assets/js/5.ac6a50e5.js"><link rel="prefetch" href="/diosaur/assets/js/6.c773b65d.js"><link rel="prefetch" href="/diosaur/assets/js/7.2fd9406d.js"><link rel="prefetch" href="/diosaur/assets/js/8.6148114a.js">
+    <link rel="stylesheet" href="/diosaur/assets/css/0.styles.75d44e13.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/diosaur/" class="home-link router-link-active"><!----> <span class="site-name">Diosaur</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/diosaur/" aria-current="page" class="sidebar-link">Home</a></li><li><a href="/diosaur/installing.html" class="sidebar-link">Installing</a></li><li><a href="/diosaur/basic-usage.html" class="sidebar-link">Basic usage</a></li><li><a href="/diosaur/abstracting-your-services.html" aria-current="page" class="active sidebar-link">Abstracting your services</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/diosaur/abstracting-your-services.html#identifying-your-services" class="sidebar-link">Identifying your services</a></li><li class="sidebar-sub-header"><a href="/diosaur/abstracting-your-services.html#tagging-your-services" class="sidebar-link">Tagging your services</a></li><li class="sidebar-sub-header"><a href="/diosaur/abstracting-your-services.html#manually-retrieving-a-tagged-service" class="sidebar-link">Manually retrieving a tagged service</a></li><li class="sidebar-sub-header"><a href="/diosaur/abstracting-your-services.html#parameter-as-tag" class="sidebar-link">Parameter as tag</a></li></ul></li><li><a href="/diosaur/multiple-services.html" class="sidebar-link">Injecting multiple services</a></li><li><a href="/diosaur/scopes.html" class="sidebar-link">Services scopes</a></li><li><a href="/diosaur/factory.html" class="sidebar-link">Factories</a></li><li><a href="/diosaur/refreshing-services.html" class="sidebar-link">Refreshing services</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="abstracting-your-services"><a href="#abstracting-your-services" class="header-anchor">#</a> Abstracting your services</h1> <p>One of the many advantages of using a dependency injection library
+is that you can actually abstract your services from their real implementation.
+For example, let's take a cache service:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">interface</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span>
+    <span class="token function">set</span><span class="token punctuation">(</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">,</span> value<span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+
+    <span class="token function">get</span><span class="token punctuation">(</span>key<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">any</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>We could have multiple class implementing this interface.</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">class</span> <span class="token class-name">RedisCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">LocalCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+</code></pre></div><p>But how should we reference it ?</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// Using an union type</span>
+    <span class="token class-name"><span class="token keyword">private</span></span> cache<span class="token operator">:</span> RedisCache <span class="token operator">|</span> LocalCache<span class="token punctuation">;</span>
+
+    <span class="token comment">// Using the interface</span>
+    <span class="token class-name"><span class="token keyword">private</span></span> cache<span class="token operator">:</span> ICache<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>But which implementation should we inject into <code>MyService</code> ?</p> <h2 id="identifying-your-services"><a href="#identifying-your-services" class="header-anchor">#</a> Identifying your services</h2> <p>When you declare a service with the <code>@Service</code> decorator, Diosaur
+automatically assigns a <em>service identifier</em> to your service class. By default,
+it's the actual service class which is convenient to register unique
+services. That's also why when you use <code>@Inject()</code> without identifier, Diosaur
+is able to retrieve the correct service by checking the attribute type.</p> <p>But in the case where you have multiple implementations to answer
+a single need, you must provide an identifier that matches all of them.</p> <p>Taking the previous example, we cannot use an interface because it's an element
+which will be lost at runtime. Diosaur allows you to use constructors, strings
+and symbols as service identifiers.</p> <p>Our example could then become:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">const</span> <span class="token constant">TYPES</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    cache<span class="token operator">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'cache'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">RedisCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">LocalCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+</code></pre></div><h2 id="tagging-your-services"><a href="#tagging-your-services" class="header-anchor">#</a> Tagging your services</h2> <p>The previous step allowed us to declare multiple implementations with a unique
+identifier, but we must now have a way to uniquely identify each of them. That's
+where tagging comes in handy.</p> <p>Diosaur allows you to tag your services easily.</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">const</span> <span class="token constant">TYPES</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    cache<span class="token operator">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'cache'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> tag<span class="token operator">:</span> <span class="token string">'redis'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">RedisCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> tag<span class="token operator">:</span> <span class="token string">'local'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">LocalCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+</code></pre></div><p>Tags in Diosaur are typed as <code>string | null</code>, if you don't provide a tag it's tagged
+as <code>null</code> which means <em>the default implementation for this identifier</em>.</p> <p>Now we can reference our cache implementation in our service:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> tag<span class="token operator">:</span> <span class="token string">'redis'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> cache<span class="token operator">:</span> ICache<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>But typing it using the interface. As such we decoupled the implementation from the usage
+completely.</p> <h2 id="manually-retrieving-a-tagged-service"><a href="#manually-retrieving-a-tagged-service" class="header-anchor">#</a> Manually retrieving a tagged service</h2> <p>You can retrieve tagged services easily by doing</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> getContainer<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'diosaur'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> container <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">getContainer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+container<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> <span class="token string">'redis'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Instance of RedisCache</span>
+</code></pre></div><h2 id="parameter-as-tag"><a href="#parameter-as-tag" class="header-anchor">#</a> Parameter as tag</h2> <p>Diosaur also allows you to define tags as parameters to push things even further.</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token function">setParameter</span><span class="token punctuation">(</span><span class="token string">'cache'</span><span class="token punctuation">,</span> <span class="token string">'redis'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> tag<span class="token operator">:</span> <span class="token string">'@cache'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment">// resolves to redis</span>
+    <span class="token keyword">private</span> cache<span class="token operator">:</span> ICache<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">// ...</span>
+<span class="token keyword">const</span> container <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">getContainer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+container<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> <span class="token string">'@cache'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Instance of RedisCache</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/diosaur/basic-usage.html" class="prev">
+        Basic usage
+      </a></span> <span class="next"><a href="/diosaur/multiple-services.html">
+        Injecting multiple services
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/diosaur/assets/js/app.78af5fd7.js" defer></script><script src="/diosaur/assets/js/2.2fc601cf.js" defer></script><script src="/diosaur/assets/js/9.8267a252.js" defer></script>
+  </body>
+</html>

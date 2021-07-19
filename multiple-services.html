@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Injecting multiple services | Diosaur</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/diosaur/assets/css/0.styles.75d44e13.css" as="style"><link rel="preload" href="/diosaur/assets/js/app.78af5fd7.js" as="script"><link rel="preload" href="/diosaur/assets/js/2.2fc601cf.js" as="script"><link rel="preload" href="/diosaur/assets/js/13.006e1ffb.js" as="script"><link rel="prefetch" href="/diosaur/assets/js/10.9882fea3.js"><link rel="prefetch" href="/diosaur/assets/js/11.508140f6.js"><link rel="prefetch" href="/diosaur/assets/js/12.4f7aa100.js"><link rel="prefetch" href="/diosaur/assets/js/14.d13c86c5.js"><link rel="prefetch" href="/diosaur/assets/js/3.f6425a68.js"><link rel="prefetch" href="/diosaur/assets/js/4.0ed284d6.js"><link rel="prefetch" href="/diosaur/assets/js/5.ac6a50e5.js"><link rel="prefetch" href="/diosaur/assets/js/6.c773b65d.js"><link rel="prefetch" href="/diosaur/assets/js/7.2fd9406d.js"><link rel="prefetch" href="/diosaur/assets/js/8.6148114a.js"><link rel="prefetch" href="/diosaur/assets/js/9.8267a252.js">
+    <link rel="stylesheet" href="/diosaur/assets/css/0.styles.75d44e13.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/diosaur/" class="home-link router-link-active"><!----> <span class="site-name">Diosaur</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/diosaur/" aria-current="page" class="sidebar-link">Home</a></li><li><a href="/diosaur/installing.html" class="sidebar-link">Installing</a></li><li><a href="/diosaur/basic-usage.html" class="sidebar-link">Basic usage</a></li><li><a href="/diosaur/abstracting-your-services.html" class="sidebar-link">Abstracting your services</a></li><li><a href="/diosaur/multiple-services.html" aria-current="page" class="active sidebar-link">Injecting multiple services</a></li><li><a href="/diosaur/scopes.html" class="sidebar-link">Services scopes</a></li><li><a href="/diosaur/factory.html" class="sidebar-link">Factories</a></li><li><a href="/diosaur/refreshing-services.html" class="sidebar-link">Refreshing services</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="injecting-multiple-services"><a href="#injecting-multiple-services" class="header-anchor">#</a> Injecting multiple services</h1> <p>We saw previously that we could tag our services, as such some of them
+might share the same <em>service identifier</em>. We can inject all services
+that share a common identifier using the <code>@InjectAll</code> decorator.</p> <p>Taking the example from previous page:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">const</span> <span class="token constant">TYPES</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    cache<span class="token operator">:</span> <span class="token function">Symbol</span><span class="token punctuation">(</span><span class="token string">'cache'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> tag<span class="token operator">:</span> <span class="token string">'redis'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">RedisCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+
+<span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">{</span> identifier<span class="token operator">:</span> <span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">,</span> tag<span class="token operator">:</span> <span class="token string">'local'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">LocalCache</span> <span class="token keyword">implements</span> <span class="token class-name">ICache</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+</code></pre></div><p>We can inject them all in another service easily:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">InjectAll</span></span><span class="token punctuation">(</span><span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">)</span>
+    <span class="token keyword">private</span> caches<span class="token operator">:</span> ICache<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Or through constructor</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">InjectAll</span></span><span class="token punctuation">(</span><span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">)</span> caches<span class="token operator">:</span> ICache<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Resolving them manually can be done with:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code>container<span class="token punctuation">.</span><span class="token function">getAll</span><span class="token punctuation">(</span><span class="token constant">TYPES</span><span class="token punctuation">.</span>cache<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/diosaur/abstracting-your-services.html" class="prev">
+        Abstracting your services
+      </a></span> <span class="next"><a href="/diosaur/scopes.html">
+        Services scopes
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/diosaur/assets/js/app.78af5fd7.js" defer></script><script src="/diosaur/assets/js/2.2fc601cf.js" defer></script><script src="/diosaur/assets/js/13.006e1ffb.js" defer></script>
+  </body>
+</html>

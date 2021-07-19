@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Basic usage | Diosaur</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/diosaur/assets/css/0.styles.75d44e13.css" as="style"><link rel="preload" href="/diosaur/assets/js/app.78af5fd7.js" as="script"><link rel="preload" href="/diosaur/assets/js/2.2fc601cf.js" as="script"><link rel="preload" href="/diosaur/assets/js/10.9882fea3.js" as="script"><link rel="prefetch" href="/diosaur/assets/js/11.508140f6.js"><link rel="prefetch" href="/diosaur/assets/js/12.4f7aa100.js"><link rel="prefetch" href="/diosaur/assets/js/13.006e1ffb.js"><link rel="prefetch" href="/diosaur/assets/js/14.d13c86c5.js"><link rel="prefetch" href="/diosaur/assets/js/3.f6425a68.js"><link rel="prefetch" href="/diosaur/assets/js/4.0ed284d6.js"><link rel="prefetch" href="/diosaur/assets/js/5.ac6a50e5.js"><link rel="prefetch" href="/diosaur/assets/js/6.c773b65d.js"><link rel="prefetch" href="/diosaur/assets/js/7.2fd9406d.js"><link rel="prefetch" href="/diosaur/assets/js/8.6148114a.js"><link rel="prefetch" href="/diosaur/assets/js/9.8267a252.js">
+    <link rel="stylesheet" href="/diosaur/assets/css/0.styles.75d44e13.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/diosaur/" class="home-link router-link-active"><!----> <span class="site-name">Diosaur</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><a href="/diosaur/" aria-current="page" class="sidebar-link">Home</a></li><li><a href="/diosaur/installing.html" class="sidebar-link">Installing</a></li><li><a href="/diosaur/basic-usage.html" aria-current="page" class="active sidebar-link">Basic usage</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/diosaur/basic-usage.html#service" class="sidebar-link">Service</a></li><li class="sidebar-sub-header"><a href="/diosaur/basic-usage.html#parameters" class="sidebar-link">Parameters</a></li><li class="sidebar-sub-header"><a href="/diosaur/basic-usage.html#retrieving-a-service" class="sidebar-link">Retrieving a service</a></li></ul></li><li><a href="/diosaur/abstracting-your-services.html" class="sidebar-link">Abstracting your services</a></li><li><a href="/diosaur/multiple-services.html" class="sidebar-link">Injecting multiple services</a></li><li><a href="/diosaur/scopes.html" class="sidebar-link">Services scopes</a></li><li><a href="/diosaur/factory.html" class="sidebar-link">Factories</a></li><li><a href="/diosaur/refreshing-services.html" class="sidebar-link">Refreshing services</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="basic-usage"><a href="#basic-usage" class="header-anchor">#</a> Basic usage</h1> <p>Diosaur provides a simple yet efficient dependency injection container solution.
+It allows you to declare <em>services</em> which can be injected in other <em>services</em> and so on.</p> <h2 id="service"><a href="#service" class="header-anchor">#</a> Service</h2> <p>A service in Diosaur can be virtually anything, an object, a function, a primitive...
+It's the way you use that makes it a service in itself. Diosaur allows you to reference it
+and then inject it in other services later.</p> <h3 id="class-service"><a href="#class-service" class="header-anchor">#</a> Class service</h3> <p>Diosaur allows you to define a <code>class</code> as service by decorating it with the <code>@Service</code> decorator.</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+    <span class="token comment">// ...</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>What did we actually do here? By decorating the <code>MyService</code> class with the <code>@Service</code> decorator, we told Diosaur that
+this class is a service and its lifecycle must be handled. It could be a dependency and be
+injected in other services as well as require some dependencies as we'll now.</p> <h3 id="injecting-dependencies"><a href="#injecting-dependencies" class="header-anchor">#</a> Injecting dependencies</h3> <p>Your services will probably require other services to work, for example a database connection,
+a mail services or other. As such, you can inject some services in other services by doing the following.</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token decorator"><span class="token at operator">@</span><span class="token function">Service</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">OtherService</span> <span class="token punctuation">{</span>
+
+    <span class="token comment">// Injecting through attribute</span>
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Inject</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> myService<span class="token operator">:</span> MyService<span class="token punctuation">;</span>
+
+    <span class="token comment">// Injecting through constructor</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Inject</span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> myService<span class="token operator">:</span> MyService<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Now, when we'll ask Diosaur to retrieve the <code>OtherService</code> for us, it's <code>myService</code> attribute will automatically
+be resolved to the correct instance of <code>MyService</code>.</p> <div class="custom-block warning"><p class="custom-block-title">Injecting services through constructor</p> <p>Injecting dependencies through constructor is an experimental feature which is documented
+in a dedicated chapter.</p></div> <h2 id="parameters"><a href="#parameters" class="header-anchor">#</a> Parameters</h2> <p>Diosaur can also register and inject <code>Parameters</code>. Those are actually static values that won't
+change throughout the life of your program, usually they only contain strings or primitive values like
+database credentials. You can register a parameter by doing the following:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> setParameter<span class="token punctuation">,</span> Paramerer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'diosaur'</span><span class="token punctuation">;</span>
+
+Diosaur<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'paramKey'</span><span class="token punctuation">,</span> <span class="token string">'value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>And you can inject it by doing the following:</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+
+    <span class="token decorator"><span class="token at operator">@</span><span class="token function">Parameter</span></span><span class="token punctuation">(</span><span class="token string">'paramKey'</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> param<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// Or directly inject it through constructor</span>
+    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token decorator"><span class="token at operator">@</span><span class="token function">Parameter</span></span><span class="token punctuation">(</span><span class="token string">'paramKey'</span><span class="token punctuation">)</span> <span class="token keyword">private</span> param<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="retrieving-a-service"><a href="#retrieving-a-service" class="header-anchor">#</a> Retrieving a service</h2> <p>Now that all of your services class are all setup we can ask Diosaur
+to build itself and resolve our services.</p> <div class="language-typescript extra-class"><pre class="language-typescript"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> getContainer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'diosaur'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> container <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">getContainer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> myService <span class="token operator">=</span> container<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>MyService<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Instance of MyService</span>
+<span class="token keyword">const</span> myParam <span class="token operator">=</span> container<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'paramKey'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// value</span>
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/diosaur/installing.html" class="prev">
+        Installing
+      </a></span> <span class="next"><a href="/diosaur/abstracting-your-services.html">
+        Abstracting your services
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/diosaur/assets/js/app.78af5fd7.js" defer></script><script src="/diosaur/assets/js/2.2fc601cf.js" defer></script><script src="/diosaur/assets/js/10.9882fea3.js" defer></script>
+  </body>
+</html>
