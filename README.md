@@ -33,10 +33,10 @@ class JonSnow {
 }
 
 setParameter('doggoName', 'Ghost');
-getContainer().then((container) => {
-    const jon = container.get(JonSnow);
-    console.log(jon.yell());
-});
+
+const container = await getContainer();
+const jon = container.get(JonSnow);
+console.log(jon.yell());
 ```
 
 ## Documentation
